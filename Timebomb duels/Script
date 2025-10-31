@@ -1,0 +1,193 @@
+--// Bomb Script | Rayfield | Автор: slivkineepy
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local StarterGui = game:GetService("StarterGui")
+
+local player = Players.LocalPlayer
+local humanoidRootPart = nil
+local guiClosed = false
+local MAX_DISTANCE = 50
+
+--// === RAYFIELD ===
+local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+
+--// === ОКНО ===
+local Window = Rayfield:CreateWindow({
+    Name = "Bomb Script",
+    LoadingTitle = "Loading...",
+    LoadingSubtitle = "By slivkineepy",
+    ConfigurationSaving = { Enabled = false },
+    Discord = { Enabled = false },
+    KeySystem = false
+})
+
+--// === ВКЛАДКА MAIN ===
+local MainTab = Window:CreateTab("Main")
+
+--// Infinite Jump
+MainTab:CreateButton({
+    Name = "Infinite Jump",
+    Callback = function()
+        local lp = Players.LocalPlayer
+        UserInputService.JumpRequest:Connect(function()
+            pcall(function()
+                if lp.Character and lp.Character:FindFirstChild("Humanoid") then
+                    lp.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                end
+            end)
+        end)
+        Rayfield:Notify({Title = "Infinite Jump", Content = "Активировано!", Duration = 2})
+    end
+})
+
+--// Walkspeed
+MainTab:CreateSlider({
+    Name = "Walkspeed",
+    Range = {0, 300},
+    Increment = 1,
+    CurrentValue = 16,
+    Callback = function(value)
+        pcall(function()
+            local char = player.Character
+            if char and char:FindFirstChild("Humanoid") then
+                char.Humanoid.WalkSpeed = value
+            end
+        end)
+    end
+})
+
+--// Jump Power
+MainTab:CreateInput({
+    Name = "Jump Power",
+    CurrentValue = "15",
+    PlaceholderText = "1-300",
+    Callback = function(input)
+        pcall(function()
+            local hum = player.Character and player.Character:FindFirstChild("Humanoid")
+            if hum then hum.JumpPower = tonumber(input) end
+        end)
+    end
+})
+
+--// Fly Gui
+MainTab:CreateButton({
+    Name = "Fly Gui",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/PetSpawnerGaG20/script/refs/heads/main/Fly"))()
+    end
+})
+
+--// === ORBIT < 50 м ===
+MainTab:CreateButton({
+    Name = "Orbit Nearest Player (Max 50m)",
+    Callback = function()
+        if not humanoidRootPart or not humanoidRootPart.Parent then
+            Rayfield:Notify({Title = "Ошибка", Content = "Персонаж не загружен!", Duration = 3})
+            return
+        end
+
+        local closestPlayer = nil
+        local closestDist = math.huge
+        local myPos = humanoidRootPart.Position
+
+        for _, p in Players:GetPlayers() do
+            if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                local dist = (p.Character.HumanoidRootPart.Position - myPos).Magnitude
+                if dist < closestDist then
+                    closestDist = dist
+                    closestPlayer = p
+                end
+            end
+        end
+
+        if not closestPlayer or closestDist > MAX_DISTANCE then
+            Rayfield:Notify({Title = "Не найдено", Content = "Игрок > 50 м", Duration = 3})
+            return
+        end
+
+        local targetHRP = closestPlayer.Character.HumanoidRootPart
+        local originalCFrame = humanoidRootPart.CFrame
+        local orbitConnection
+        local startTime = tick()
+        local duration = 1.2
+        local radius = 2
+
+        Rayfield:Notify({Title = "Bomb Script", Content = "Кружение: " .. closestPlayer.DisplayName, Duration = 1.5})
+
+        local function orbit()
+            local elapsed = tick() - startTime
+            if elapsed >= duration then
+                if orbitConnection then orbitConnection:Disconnect() end
+                if humanoidRootPart and humanoidRootPart.Parent then
+                    humanoidRootPart.CFrame = originalCFrame
+                end
+                return
+            end
+
+            if targetHRP and targetHRP.Parent and humanoidRootPart and humanoidRootPart.Parent then
+                local angle = (elapsed / duration) * math.pi * 3
+                local offset = Vector3.new(math.cos(angle) * radius, 0, math.sin(angle) * radius)
+                local lookAt = targetHRP.Position
+                humanoidRootPart.CFrame = CFrame.new(lookAt + offset, lookAt)
+            end
+        end
+
+        orbitConnection = RunService.Heartbeat:Connect(orbit)
+    end
+})
+
+--// === ВКЛАДКА MISC ===
+local MiscTab = Window:CreateTab("Misc")
+
+MiscTab:CreateLabel("By NyoaHub | Discord = discord.gg/s65yDmawZx")
+
+MiscTab:CreateButton({
+    Name = "Copy Discord Invite Link",
+    Callback = function()
+        setclipboard("https://discord.gg/s65yDmawZx")
+        StarterGui:SetCore("SendNotification", {Title = "Discord Invite Link Copied!", Text = "Success", Duration = 3})
+    end
+})
+
+MiscTab:CreateButton({
+    Name = "CloseGui",
+    Callback = function()
+        guiClosed = true
+        Rayfield:Destroy()
+    end
+})
+
+--// === INSERT ===
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    if input.KeyCode == Enum.KeyCode.Insert then
+        if guiClosed then
+            guiClosed = false
+            Rayfield:Destroy()
+            task.wait(0.1)
+            loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+            print("[Bomb Script] Открыт")
+        else
+            guiClosed = true
+            Rayfield:Destroy()
+            print("[Bomb Script] Закрыт")
+        end
+    end
+end)
+
+--// === РЕСПАУН ===
+local function UpdateCharacter()
+    local char = player.Character or player.CharacterAdded:Wait()
+    humanoidRootPart = char:WaitForChild("HumanoidRootPart", 10)
+end
+
+player.CharacterAdded:Connect(function()
+    task.wait(0.5)
+    UpdateCharacter()
+end)
+
+UpdateCharacter()
+
+print("Bomb Script загружен! Убраны: AllBadge, No Cooldown, Slap Aura")
