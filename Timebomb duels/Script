@@ -1,20 +1,17 @@
---// Bomb Script | Rayfield | Автор: slivkineepy
+--// Bomb Script | Obfuscated | slivkineepy
 
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local UserInputService = game:GetService("UserInputService")
-local StarterGui = game:GetService("StarterGui")
+local _0x1 = game:GetService("Players")
+local _0x2 = game:GetService("RunService")
+local _0x3 = game:GetService("UserInputService")
+local _0x4 = game:GetService("StarterGui")
+local _0x5 = _0x1.LocalPlayer
+local _0x6 = nil
+local _0x7 = false
+local _0x8 = 50
 
-local player = Players.LocalPlayer
-local humanoidRootPart = nil
-local guiClosed = false
-local MAX_DISTANCE = 50
+local _0x9 = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
---// === RAYFIELD ===
-local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
-
---// === ОКНО ===
-local Window = Rayfield:CreateWindow({
+local _0xA = _0x9:CreateWindow({
     Name = "Bomb Script",
     LoadingTitle = "Loading...",
     LoadingSubtitle = "By slivkineepy",
@@ -23,171 +20,166 @@ local Window = Rayfield:CreateWindow({
     KeySystem = false
 })
 
---// === ВКЛАДКА MAIN ===
-local MainTab = Window:CreateTab("Main")
+local _0xB = _0xA:CreateTab("Main")
 
 --// Infinite Jump
-MainTab:CreateButton({
+_0xB:CreateButton({
     Name = "Infinite Jump",
     Callback = function()
-        local lp = Players.LocalPlayer
-        UserInputService.JumpRequest:Connect(function()
+        _0x3.JumpRequest:Connect(function()
             pcall(function()
-                if lp.Character and lp.Character:FindFirstChild("Humanoid") then
-                    lp.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                local _0xC = _0x5.Character
+                if _0xC and _0xC:FindFirstChild("Humanoid") then
+                    _0xC.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
                 end
             end)
         end)
-        Rayfield:Notify({Title = "Infinite Jump", Content = "Активировано!", Duration = 2})
+        _0x9:Notify({Title="Infinite Jump",Content="Активировано!",Duration=2})
     end
 })
 
 --// Walkspeed
-MainTab:CreateSlider({
+_0xB:CreateSlider({
     Name = "Walkspeed",
     Range = {0, 300},
     Increment = 1,
     CurrentValue = 16,
-    Callback = function(value)
+    Callback = function(_0xD)
         pcall(function()
-            local char = player.Character
-            if char and char:FindFirstChild("Humanoid") then
-                char.Humanoid.WalkSpeed = value
+            local _0xE = _0x5.Character
+            if _0xE and _0xE:FindFirstChild("Humanoid") then
+                _0xE.Humanoid.WalkSpeed = _0xD
             end
         end)
     end
 })
 
 --// Jump Power
-MainTab:CreateInput({
+_0xB:CreateInput({
     Name = "Jump Power",
     CurrentValue = "15",
     PlaceholderText = "1-300",
-    Callback = function(input)
+    Callback = function(_0xF)
         pcall(function()
-            local hum = player.Character and player.Character:FindFirstChild("Humanoid")
-            if hum then hum.JumpPower = tonumber(input) end
+            local _0x10 = _0x5.Character and _0x5.Character:FindFirstChild("Humanoid")
+            if _0x10 then _0x10.JumpPower = tonumber(_0xF) end
         end)
     end
 })
 
 --// Fly Gui
-MainTab:CreateButton({
+_0xB:CreateButton({
     Name = "Fly Gui",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/PetSpawnerGaG20/script/refs/heads/main/Fly"))()
     end
 })
 
---// === ORBIT < 50 м ===
-MainTab:CreateButton({
+--// Orbit Nearest Player
+_0xB:CreateButton({
     Name = "Orbit Nearest Player (Max 50m)",
     Callback = function()
-        if not humanoidRootPart or not humanoidRootPart.Parent then
-            Rayfield:Notify({Title = "Ошибка", Content = "Персонаж не загружен!", Duration = 3})
+        if not _0x6 or not _0x6.Parent then
+            _0x9:Notify({Title="Ошибка",Content="Персонаж не загружен!",Duration=3})
             return
         end
 
-        local closestPlayer = nil
-        local closestDist = math.huge
-        local myPos = humanoidRootPart.Position
+        local _0x11, _0x12 = nil, math.huge
+        local _0x13 = _0x6.Position
 
-        for _, p in Players:GetPlayers() do
-            if p ~= player and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-                local dist = (p.Character.HumanoidRootPart.Position - myPos).Magnitude
-                if dist < closestDist then
-                    closestDist = dist
-                    closestPlayer = p
+        for _, _0x14 in _0x1:GetPlayers() do
+            if _0x14 ~= _0x5 and _0x14.Character and _0x14.Character:FindFirstChild("HumanoidRootPart") then
+                local _0x15 = (_0x14.Character.HumanoidRootPart.Position - _0x13).Magnitude
+                if _0x15 < _0x12 then
+                    _0x12 = _0x15
+                    _0x11 = _0x14
                 end
             end
         end
 
-        if not closestPlayer or closestDist > MAX_DISTANCE then
-            Rayfield:Notify({Title = "Не найдено", Content = "Игрок > 50 м", Duration = 3})
+        if not _0x11 or _0x12 > _0x8 then
+            _0x9:Notify({Title="Не найдено",Content="Игрок > 50 м",Duration=3})
             return
         end
 
-        local targetHRP = closestPlayer.Character.HumanoidRootPart
-        local originalCFrame = humanoidRootPart.CFrame
-        local orbitConnection
-        local startTime = tick()
-        local duration = 1.2
-        local radius = 2
+        local _0x16 = _0x11.Character.HumanoidRootPart
+        local _0x17 = _0x6.CFrame
+        local _0x18
+        local _0x19 = tick()
+        local _0x1A = 1.2
+        local _0x1B = 2
 
-        Rayfield:Notify({Title = "Bomb Script", Content = "Кружение: " .. closestPlayer.DisplayName, Duration = 1.5})
+        _0x9:Notify({Title="Bomb Script",Content="Кружение: " .. _0x11.DisplayName,Duration=1.5})
 
-        local function orbit()
-            local elapsed = tick() - startTime
-            if elapsed >= duration then
-                if orbitConnection then orbitConnection:Disconnect() end
-                if humanoidRootPart and humanoidRootPart.Parent then
-                    humanoidRootPart.CFrame = originalCFrame
-                end
+        local function _0x1C()
+            local _0x1D = tick() - _0x19
+            if _0x1D >= _0x1A then
+                if _0x18 then _0x18:Disconnect() end
+                if _0x6 and _0x6.Parent then _0x6.CFrame = _0x17 end
                 return
             end
 
-            if targetHRP and targetHRP.Parent and humanoidRootPart and humanoidRootPart.Parent then
-                local angle = (elapsed / duration) * math.pi * 3
-                local offset = Vector3.new(math.cos(angle) * radius, 0, math.sin(angle) * radius)
-                local lookAt = targetHRP.Position
-                humanoidRootPart.CFrame = CFrame.new(lookAt + offset, lookAt)
+            if _0x16 and _0x16.Parent and _0x6 and _0x6.Parent then
+                local _0x1E = (_0x1D / _0x1A) * math.pi * 3
+                local _0x1F = Vector3.new(math.cos(_0x1E) * _0x1B, 0, math.sin(_0x1E) * _0x1B)
+                local _0x20 = _0x16.Position
+                _0x6.CFrame = CFrame.new(_0x20 + _0x1F, _0x20)
             end
         end
 
-        orbitConnection = RunService.Heartbeat:Connect(orbit)
+        _0x18 = _0x2.Heartbeat:Connect(_0x1C)
     end
 })
 
---// === ВКЛАДКА MISC ===
-local MiscTab = Window:CreateTab("Misc")
+--// Misc Tab
+local _0x21 = _0xA:CreateTab("Misc")
+_0x21:CreateLabel("By NyoaHub | Discord = discord.gg/s65yDmawZx")
 
-MiscTab:CreateLabel("By NyoaHub | Discord = discord.gg/s65yDmawZx")
-
-MiscTab:CreateButton({
+_0x21:CreateButton({
     Name = "Copy Discord Invite Link",
     Callback = function()
         setclipboard("https://discord.gg/s65yDmawZx")
-        StarterGui:SetCore("SendNotification", {Title = "Discord Invite Link Copied!", Text = "Success", Duration = 3})
+        _0x4:SetCore("SendNotification", {Title="Discord Invite Link Copied!",Text="Success",Duration=3})
     end
 })
 
-MiscTab:CreateButton({
+_0x21:CreateButton({
     Name = "CloseGui",
     Callback = function()
-        guiClosed = true
-        Rayfield:Destroy()
+        _0x7 = true
+        _0x9:Destroy()
     end
 })
 
---// === INSERT ===
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    if input.KeyCode == Enum.KeyCode.Insert then
-        if guiClosed then
-            guiClosed = false
-            Rayfield:Destroy()
+--// Insert Toggle
+_0x3.InputBegan:Connect(function(_0x22, _0x23)
+    if _0x23 then return end
+    if _0x22.KeyCode == Enum.KeyCode.Insert then
+        if _0x7 then
+            _0x7 = false
+            _0x9:Destroy()
             task.wait(0.1)
             loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
             print("[Bomb Script] Открыт")
         else
-            guiClosed = true
-            Rayfield:Destroy()
+            _0x7 = true
+            _0x9:Destroy()
             print("[Bomb Script] Закрыт")
         end
     end
 end)
 
---// === РЕСПАУН ===
-local function UpdateCharacter()
-    local char = player.Character or player.CharacterAdded:Wait()
-    humanoidRootPart = char:WaitForChild("HumanoidRootPart", 10)
+--// Character Update
+local function _0x24()
+    local _0x25 = _0x5.Character or _0x5.CharacterAdded:Wait()
+    _0x6 = _0x25:WaitForChild("HumanoidRootPart", 10)
 end
 
-player.CharacterAdded:Connect(function()
+_0x5.CharacterAdded:Connect(function()
     task.wait(0.5)
-    UpdateCharacter()
+    _0x24()
 end)
 
-UpdateCharacter()
+_0x24()
 
 print("Bomb Script загружен! Убраны: AllBadge, No Cooldown, Slap Aura")
