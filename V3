@@ -1,0 +1,493 @@
+--// TIMEBOMB DUELS | SLIVKINEEPY
+local x1 = game:GetService("Players")
+local x2 = game:GetService("RunService")
+local x3 = game:GetService("StarterGui")
+local x4 = x1.LocalPlayer
+local x5 = x4:GetMouse()
+
+local x6, x7, x8
+local x9 = false
+local x10 = 0
+local x11 = 0.5
+local x12 = 50
+local x13 = 1.2
+local x14 = 4
+local x15 = nil
+local x16 = false
+local x17 = 0
+local x18 = nil
+local x19 = nil
+local x20 = 10
+local x21 = false
+local x22 = false
+
+-- === ГЛОБАЛЬНЫЕ ФЛАГИ ===
+local mainGui = nil
+local isGuiActive = false
+local isGuiClosedPermanently = false
+
+local function startOrbit(targetPart)
+	if x9 or not x7 or tick() - x10 < x11 then return end
+	x9 = true
+	x10 = tick()
+	local originalCFrame = x7.CFrame
+	local startTime = tick()
+	local radius = 2
+	local connection
+	connection = x2.Heartbeat:Connect(function()
+		local elapsed = tick() - startTime
+		if elapsed >= x13 then
+			connection:Disconnect()
+			if x7 and x7.Parent then x7.CFrame = originalCFrame end
+			x9 = false
+			return
+		end
+		local center = targetPart.Position
+		local angle = (elapsed / x13) * math.pi * 2 * x14
+		local offset = Vector3.new(math.cos(angle) * radius, 0, math.sin(angle) * radius)
+		x7.CFrame = CFrame.new(center + offset, center)
+	end)
+end
+
+local function orbitByLook()
+	if x9 or not x7 or tick() - x10 < x11 then return end
+	local lookVector = x7.CFrame.LookVector
+	local myPosition = x7.Position
+	local closestPlayer = nil
+	local closestDistance = math.huge
+	for _, player in x1:GetPlayers() do
+		if player ~= x4 and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+			local hrp = player.Character.HumanoidRootPart
+			local distance = (hrp.Position - myPosition).Magnitude
+			local direction = (hrp.Position - myPosition).Unit
+			if distance <= x12 and lookVector:Dot(direction) > 0.7 and distance < closestDistance then
+				closestDistance = distance
+				closestPlayer = player
+			end
+		end
+	end
+	if closestPlayer then startOrbit(closestPlayer.Character.HumanoidRootPart) end
+end
+
+local function orbitNearest()
+	if x9 or not x7 or tick() - x10 < x11 then return end
+	local myPosition = x7.Position
+	local closestPlayer = nil
+	local closestDistance = math.huge
+	for _, player in x1:GetPlayers() do
+		if player ~= x4 and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+			local hrp = player.Character.HumanoidRootPart
+			local distance = (hrp.Position - myPosition).Magnitude
+			if distance <= x12 and distance < closestDistance then
+				closestDistance = distance
+				closestPlayer = player
+			end
+		end
+	end
+	if closestPlayer then startOrbit(closestPlayer.Character.HumanoidRootPart) end
+end
+
+local function orbitSelectedTarget()
+	if not x15 or not x15.Character or not x15.Character:FindFirstChild("HumanoidRootPart") then
+		x3:SetCore("SendNotification", {Title="TB", Text="No target!", Duration=2})
+		return
+	end
+	if x9 or not x7 or tick() - x10 < x11 then return end
+	startOrbit(x15.Character.HumanoidRootPart)
+end
+
+local function giveTargetTool()
+	if x8:FindFirstChild("Target Selector") then return end
+	local tool = Instance.new("Tool")
+	tool.Name = "Target Selector"
+	tool.RequiresHandle = false
+	tool.Parent = x8
+	local handle = Instance.new("Part", tool)
+	handle.Name = "Handle"
+	handle.Size = Vector3.new(0.1, 0.1, 0.1)
+	handle.Transparency = 1
+	handle.CanCollide = false
+	tool.Activated:Connect(function()
+		local target = x5.Target
+		if not target then return end
+		local model = target:FindFirstAncestorWhichIsA("Model")
+		if not model or not model:FindFirstChild("Humanoid") then return end
+		local player = x1:GetPlayerFromCharacter(model)
+		if not player or player == x4 then return end
+		x15 = player
+		x3:SetCore("SendNotification", {Title="TB", Text="Target: @"..player.DisplayName, Duration=2})
+	end)
+	x3:SetCore("SendNotification", {Title="TB", Text="Tool given!", Duration=2})
+	x21 = true
+end
+
+local function giveTPTool()
+	if x8:FindFirstChild("TP Tool") then return end
+	local tool = Instance.new("Tool")
+	tool.Name = "TP Tool"
+	tool.RequiresHandle = false
+	tool.Parent = x8
+	tool.Activated:Connect(function()
+		local pos = x5.Hit.Position + Vector3.new(0, 2.5, 0)
+		if x7 and x7.Parent then x7.CFrame = CFrame.new(pos) end
+	end)
+	x3:SetCore("SendNotification", {Title="TB", Text="TP given!", Duration=2})
+	x22 = true
+end
+
+local function removeTarget()
+	if x15 then x3:SetCore("SendNotification", {Title="TB", Text="Target removed", Duration=2}) end
+	x15 = nil
+	local tool = x8:FindFirstChild("Target Selector")
+	if tool then tool:Destroy() end
+	x21 = false
+end
+
+local function clearTPTool()
+	local tool = x8:FindFirstChild("TP Tool")
+	if tool then
+		tool:Destroy()
+		x3:SetCore("SendNotification", {Title="TB", Text="TP removed!", Duration=2})
+	end
+	x22 = false
+end
+
+local function addHighlight(targetCharacter)
+	if x19 then x19:Destroy() end
+	local hrp = targetCharacter:FindFirstChild("HumanoidRootPart")
+	if hrp then
+		local billboard = Instance.new("BillboardGui", hrp)
+		billboard.Name = "FollowHighlight"
+		billboard.Size = UDim2.new(0, 8, 0, 8)
+		billboard.AlwaysOnTop = true
+		billboard.StudsOffset = Vector3.new(0, 3, 0)
+		local frame = Instance.new("Frame", billboard)
+		frame.Size = UDim2.new(1, 0, 1, 0)
+		frame.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		frame.BorderSizePixel = 0
+		local corner = Instance.new("UICorner", frame)
+		corner.CornerRadius = UDim.new(1, 0)
+		x19 = billboard
+	end
+end
+
+local function toggleFollow(button)
+	x16 = not x16
+	if x16 then
+		button.Text = "Follow: ON"
+		button.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+		x17 = tick() + x20
+		x18 = nil
+	else
+		button.Text = "Follow: OFF"
+		button.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
+		x17 = 0
+		x18 = nil
+		if x19 then x19:Destroy() x19 = nil end
+	end
+end
+
+local function getClosestPlayer()
+	local closest = nil
+	local distance = math.huge
+	if x6 and x7 then
+		for _, player in x1:GetPlayers() do
+			if player ~= x4 and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+				local dist = (player.Character.HumanoidRootPart.Position - x7.Position).Magnitude
+				if dist < distance then
+					distance = dist
+					closest = player
+				end
+			end
+		end
+	end
+	return closest
+end
+
+-- === ПОЛНОЕ УДАЛЕНИЕ GUI ===
+local function destroyGui()
+	if mainGui and mainGui.Parent then
+		mainGui:Destroy()
+	end
+	mainGui = nil
+	isGuiActive = false
+	isGuiClosedPermanently = true
+	-- === НОТИФИКАЦИЯ: GUI closed ===
+	x3:SetCore("SendNotification", {
+		Title = "TB",
+		Text = "GUI closed",
+		Duration = 3
+	})
+end
+
+-- === СОЗДАНИЕ GUI ===
+local function createGUI()
+	if isGuiActive or isGuiClosedPermanently then return end
+
+	mainGui = Instance.new("ScreenGui")
+	mainGui.Name = "TimebombGUI"
+	mainGui.ResetOnSpawn = false
+	mainGui.Parent = x4:WaitForChild("PlayerGui")
+
+	local mainFrame = Instance.new("Frame", mainGui)
+	mainFrame.Size = UDim2.new(0, 200, 0, 200)
+	mainFrame.Position = UDim2.new(0.5, -100, 0.5, -100)
+	mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+	mainFrame.BorderSizePixel = 2
+	mainFrame.BorderColor3 = Color3.fromRGB(255, 50, 50)
+	mainFrame.Active = true
+	mainFrame.Draggable = true
+
+	local headerFrame = Instance.new("Frame", mainFrame)
+	headerFrame.Size = UDim2.new(1, 0, 0, 25)
+	headerFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+
+	local titleLabel = Instance.new("TextLabel", headerFrame)
+	titleLabel.Size = UDim2.new(1, -80, 1, 0)
+	titleLabel.Position = UDim2.new(0, 5, 0, 0)
+	titleLabel.BackgroundTransparency = 1
+	titleLabel.Text = "TB | slivkineepy"
+	titleLabel.TextColor3 = Color3.fromRGB(255, 255, 100)
+	titleLabel.Font = Enum.Font.GothamBold
+	titleLabel.TextSize = 13
+
+	local minimizeButton = Instance.new("TextButton", headerFrame)
+	minimizeButton.Size = UDim2.new(0, 30, 0, 30)
+	minimizeButton.Position = UDim2.new(1, -70, 0, -3)
+	minimizeButton.BackgroundTransparency = 1
+	minimizeButton.Text = "-"
+	minimizeButton.TextColor3 = Color3.fromRGB(200, 200, 200)
+	minimizeButton.Font = Enum.Font.GothamBold
+	minimizeButton.TextSize = 18
+
+	local maximizeButton = Instance.new("TextButton", headerFrame)
+	maximizeButton.Size = UDim2.new(0, 30, 0, 30)
+	maximizeButton.Position = UDim2.new(1, -70, 0, -3)
+	maximizeButton.BackgroundTransparency = 1
+	maximizeButton.Text = "+"
+	maximizeButton.TextColor3 = Color3.fromRGB(100, 255, 100)
+	maximizeButton.Font = Enum.Font.GothamBold
+	maximizeButton.TextSize = 18
+	maximizeButton.Visible = false
+
+	local closeButton = Instance.new("TextButton", headerFrame)
+	closeButton.Size = UDim2.new(0, 30, 0, 30)
+	closeButton.Position = UDim2.new(1, -35, 0, -3)
+	closeButton.BackgroundTransparency = 1
+	closeButton.Text = "X"
+	closeButton.TextColor3 = Color3.fromRGB(255, 80, 80)
+	closeButton.Font = Enum.Font.GothamBold
+	closeButton.TextSize = 18
+
+	local contentFrame = Instance.new("Frame", mainFrame)
+	contentFrame.Size = UDim2.new(1, 0, 1, -25)
+	contentFrame.Position = UDim2.new(0, 0, 0, 25)
+	contentFrame.BackgroundTransparency = 1
+	contentFrame.ClipsDescendants = true
+
+	local scrollFrame = Instance.new("ScrollingFrame", contentFrame)
+	scrollFrame.Size = UDim2.new(1, -15, 1, 0)
+	scrollFrame.Position = UDim2.new(0, 8, 0, 0)
+	scrollFrame.BackgroundTransparency = 1
+	scrollFrame.ScrollBarThickness = 5
+	scrollFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+
+	local listLayout = Instance.new("UIListLayout", scrollFrame)
+	listLayout.Padding = UDim.new(0, 5)
+	listLayout.FillDirection = Enum.FillDirection.Vertical
+
+	local fullSize = mainFrame.Size
+	local miniSize = UDim2.new(0, 200, 0, 25)
+	local minimized = false
+
+	minimizeButton.MouseButton1Click:Connect(function()
+		if minimized then return end
+		minimized = true
+		minimizeButton.Visible = false
+		maximizeButton.Visible = true
+		contentFrame.Visible = false
+		mainFrame:TweenSize(miniSize, "Out", "Quad", 0.2, true)
+	end)
+
+	maximizeButton.MouseButton1Click:Connect(function()
+		if not minimized then return end
+		minimized = false
+		maximizeButton.Visible = false
+		minimizeButton.Visible = true
+		mainFrame:TweenSize(fullSize, "Out", "Quad", 0.2, true, function()
+			contentFrame.Visible = true
+		end)
+	end)
+
+	-- === ЗАКРЫТЬ → "Close GUI?" → Yes → GUI closed + НОТИФИКАЦИЯ ===
+	closeButton.MouseButton1Click:Connect(function()
+		local confirmGui = Instance.new("ScreenGui")
+		confirmGui.Parent = x4.PlayerGui
+		confirmGui.Name = "ConfirmClose"
+
+		local confirmFrame = Instance.new("Frame", confirmGui)
+		confirmFrame.Size = UDim2.new(0, 220, 0, 110)
+		confirmFrame.Position = UDim2.new(0.5, -110, 0.5, -55)
+		confirmFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+		confirmFrame.BorderSizePixel = 2
+		confirmFrame.BorderColor3 = Color3.fromRGB(255, 50, 50)
+
+		local confirmLabel = Instance.new("TextLabel", confirmFrame)
+		confirmLabel.Size = UDim2.new(1, 0, 0.5, 0)
+		confirmLabel.BackgroundTransparency = 1
+		confirmLabel.Text = "Close GUI?"
+		confirmLabel.TextColor3 = Color3.fromRGB(255, 255, 100)
+		confirmLabel.Font = Enum.Font.GothamBold
+		confirmLabel.TextSize = 18
+
+		local yesButton = Instance.new("TextButton", confirmFrame)
+		yesButton.Size = UDim2.new(0.45, 0, 0.35, 0)
+		yesButton.Position = UDim2.new(0.05, 0, 0.55, 0)
+		yesButton.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+		yesButton.Text = "Yes"
+		yesButton.TextColor3 = Color3.new(1, 1, 1)
+		yesButton.Font = Enum.Font.GothamBold
+		yesButton.TextSize = 16
+
+		local noButton = Instance.new("TextButton", confirmFrame)
+		noButton.Size = UDim2.new(0.45, 0, 0.35, 0)
+		noButton.Position = UDim2.new(0.5, 0, 0.55, 0)
+		noButton.BackgroundColor3 = Color3.fromRGB(150, 50, 50)
+		noButton.Text = "No"
+		noButton.TextColor3 = Color3.new(1, 1, 1)
+		noButton.Font = Enum.Font.GothamBold
+		noButton.TextSize = 16
+
+		yesButton.MouseButton1Click:Connect(function()
+			removeTarget()
+			clearTPTool()
+			destroyGui()  -- Удаляет + показывает "GUI closed"
+			confirmGui:Destroy()
+		end)
+
+		noButton.MouseButton1Click:Connect(function()
+			confirmGui:Destroy()
+		end)
+	end)
+
+	local cooldowns = {}
+	local function createButton(text, color, callback)
+		local button = Instance.new("TextButton", scrollFrame)
+		button.Size = UDim2.new(1, 0, 0, 30)
+		button.BackgroundColor3 = color
+		button.Text = text
+		button.TextColor3 = Color3.new(1, 1, 1)
+		button.Font = Enum.Font.Gotham
+		button.TextSize = 12
+		button.AutoButtonColor = false
+
+		button.MouseButton1Click:Connect(function()
+			local now = tick()
+			if cooldowns[button] and now - cooldowns[button] < 0.5 then return end
+			cooldowns[button] = now
+			local oldText, oldColor = button.Text, button.BackgroundColor3
+			button.Text = "OK"
+			button.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+			spawn(callback)
+			task.delay(0.5, function()
+				if button and button.Parent then
+					button.Text = oldText
+					button.BackgroundColor3 = oldColor
+				end
+			end)
+		end)
+
+		button.MouseEnter:Connect(function()
+			if button.Text ~= "OK" then
+				button.BackgroundColor3 = color:lerp(Color3.new(1, 1, 1), 0.2)
+			end
+		end)
+
+		button.MouseLeave:Connect(function()
+			if button.Text ~= "OK" then
+				button.BackgroundColor3 = color
+			end
+		end)
+	end
+
+	createButton("Orbit by Look", Color3.fromRGB(50, 70, 60), orbitByLook)
+	createButton("Orbit Nearest", Color3.fromRGB(55, 65, 85), orbitNearest)
+	createButton("Target Tool", Color3.fromRGB(0, 130, 210), function() x21 = true; giveTargetTool() end)
+	createButton("Orbit Target", Color3.fromRGB(85, 55, 105), orbitSelectedTarget)
+	createButton("Remove Target", Color3.fromRGB(150, 55, 55), removeTarget)
+	createButton("TP Tool", Color3.fromRGB(0, 160, 210), function() x22 = true; giveTPTool() end)
+	createButton("Clear TP", Color3.fromRGB(210, 90, 0), clearTPTool)
+
+	local followButton = Instance.new("TextButton", scrollFrame)
+	followButton.Size = UDim2.new(1, 0, 0, 30)
+	followButton.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
+	followButton.Text = "Follow: OFF"
+	followButton.TextColor3 = Color3.new(1, 1, 1)
+	followButton.Font = Enum.Font.Gotham
+	followButton.TextSize = 12
+	followButton.AutoButtonColor = false
+	followButton.MouseButton1Click:Connect(function() toggleFollow(followButton) end)
+	followButton.MouseEnter:Connect(function()
+		if followButton.Text ~= "OK" then
+			followButton.BackgroundColor3 = followButton.BackgroundColor3:lerp(Color3.new(1, 1, 1), 0.2)
+		end
+	end)
+	followButton.MouseLeave:Connect(function()
+		if followButton.Text ~= "OK" then
+			followButton.BackgroundColor3 = (x16 and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(180, 0, 0))
+		end
+	end)
+
+	isGuiActive = true
+end
+
+-- === FOLLOW LOOP ===
+x2.RenderStepped:Connect(function()
+	if x16 and tick() < x17 then
+		if not x18 or not x18.Character or not x18.Character:FindFirstChild("HumanoidRootPart") or not x18.Character:FindFirstChild("Humanoid") or x18.Character.Humanoid.Health <= 0 then
+			x18 = getClosestPlayer()
+			if x18 and x18.Character then addHighlight(x18.Character)
+			else
+				if x19 then x19:Destroy() x19 = nil end
+				return
+			end
+		end
+		if x18 and x18.Character and x6 then
+			local targetHRP = x18.Character:FindFirstChild("HumanoidRootPart")
+			local humanoid = x6:FindFirstChild("Humanoid")
+			if targetHRP and humanoid then humanoid:MoveTo(targetHRP.Position) end
+		end
+	end
+end)
+
+-- === ИНИЦИАЛИЗАЦИЯ ===
+spawn(function()
+	pcall(function()
+		x3:SetCore("SendNotification", {Title="TB", Text="Loaded!", Duration=2})
+	end)
+end)
+
+x4.CharacterAdded:Connect(function(char)
+	x6 = char
+	x7 = char:WaitForChild("HumanoidRootPart", 10)
+	x8 = x4:WaitForChild("Backpack")
+	if x21 then giveTargetTool() end
+	if x22 then giveTPTool() end
+	if x16 then x17 = tick() + x20 end
+
+	if not isGuiClosedPermanently then
+		createGUI()
+	end
+end)
+
+if x4.Character then
+	x6 = x4.Character
+	x7 = x4.Character:WaitForChild("HumanoidRootPart", 10)
+	x8 = x4:WaitForChild("Backpack")
+	if x21 then giveTargetTool() end
+	if x22 then giveTPTool() end
+	if not isGuiClosedPermanently then
+		createGUI()
+	end
+end
