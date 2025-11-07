@@ -3,49 +3,47 @@
     DO NOT DEOBFUSCATE = copyright claims
 --]]
 
-local function _0x1() local a=game return a end
-local _0x2=_0x1()
-local _0x3=_0x2:GetService("\x50\x6C\x61\x79\x65\x72\x73")
-local _0x4=_0x2:GetService("\x52\x75\x6E\x53\x65\x72\x76\x69\x63\x65")
-local _0x5=_0x2:GetService("\x53\x74\x61\x72\x74\x65\x72\x47\x75\x69")
-local _0x6=_0x3.LocalPlayer
-local _0x7=_0x6:GetMouse()
-local _0x8,_0x9,_0xa
-local _0xb=false
-local _0xc=0
-local _0xd=0.3
-local _0xe=50
-local _0xf=0.7
-local _0x10=7
-local _0x11=nil
-local _0x12=false
-local _0x13=0
-local _0x14=nil
-local _0x15=nil
-local _0x16=10
-local _0x17=false
-local _0x18=false
-local _0x19=nil
-local _0x1a=false
-local _0x1b=false
-local _0x1c=10
-local _0x1d=nil
-local _0x1e=nil
-local _0x1f=nil
-local _0x20=false
-local _0x21=false
-local _0x22=0
+local function _0x1() local a = game return a end
+local _0x2 = _0x1()
+local _0x3 = _0x2:GetService("\x50\x6C\x61\x79\x65\x72\x73")
+local _0x4 = _0x2:GetService("\x52\x75\x6E\x53\x65\x72\x76\x69\x63\x65")
+local _0x5 = _0x2:GetService("\x53\x74\x61\x72\x74\x65\x72\x47\x75\x69")
+local _0x6 = _0x3.LocalPlayer
+local _0x7 = _0x6:GetMouse()
+local _0x8, _0x9, _0xa
+local _0xb = false
+local _0xc = 0
+local _0xd = 0.3
+local _0xe = 50
+local _0xf = 0.7
+local _0x10 = 7
+local _0x11 = nil
+local _0x12 = false
+local _0x13 = 0
+local _0x14 = nil
+local _0x15 = nil
+local _0x16 = 10
+local _0x17 = false
+local _0x18 = false
+local _0x19 = nil
+local _0x1a = false
+local _0x1b = false
+local _0x1c = 10
+local _0x1d = nil
+local _0x1e = nil
+local _0x1f = nil
+local _0xGUI_CLOSED = false  -- добавлено для фикса
 
 local function _0x23()
-	local _0x24=nil
-	local _0x25=math.huge
+	local _0x24 = nil
+	local _0x25 = math.huge
 	if _0x8 and _0x9 then
-		for _,_0x26 in _0x3:GetPlayers() do
-			if _0x26~=_0x6 and _0x26.Character and _0x26.Character:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74") then
-				local _0x27=(_0x26.Character.HumanoidRootPart.Position-_0x9.Position).Magnitude
-				if _0x27<_0x25 then
-					_0x24=_0x26
-					_0x25=_0x27
+		for _, _0x26 in _0x3:GetPlayers() do
+			if _0x26 ~= _0x6 and _0x26.Character and _0x26.Character:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74") then
+				local _0x27 = (_0x26.Character.HumanoidRootPart.Position - _0x9.Position).Magnitude
+				if _0x27 < _0x25 then
+					_0x24 = _0x26
+					_0x25 = _0x27
 				end
 			end
 		end
@@ -55,103 +53,103 @@ end
 
 local function _0x28(_0x29)
 	if _0x1e then _0x1e:Destroy() end
-	local _0x2a=_0x29:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74")
+	local _0x2a = _0x29:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74")
 	if _0x2a then
-		local _0x2b=Instance.new("\x42\x69\x6C\x6C\x62\x6F\x61\x72\x64\x47\x75\x69",_0x2a)
-		_0x2b.Name="\x54\x50\x46\x6F\x6C\x6C\x6F\x77\x4D\x61\x72\x6B\x65\x72"
-		_0x2b.Size=UDim2.new(0,8,0,8)
-		_0x2b.AlwaysOnTop=true
-		_0x2b.StudsOffset=Vector3.new(0,3,0)
-		local _0x2c=Instance.new("\x46\x72\x61\x6D\x65",_0x2b)
-		_0x2c.Size=UDim2.new(1,0,1,0)
-		_0x2c.BackgroundColor3=Color3.fromRGB(0,255,0)
-		_0x2c.BorderSizePixel=0
-		Instance.new("\x55\x49\x43\x6F\x72\x6E\x65\x72",_0x2c).CornerRadius=UDim.new(1,0)
-		_0x1e=_0x2b
+		local _0x2b = Instance.new("\x42\x69\x6C\x6C\x62\x6F\x61\x72\x64\x47\x75\x69", _0x2a)
+		_0x2b.Name = "\x54\x50\x46\x6F\x6C\x6C\x6F\x77\x4D\x61\x72\x6B\x65\x72"
+		_0x2b.Size = UDim2.new(0, 8, 0, 8)
+		_0x2b.AlwaysOnTop = true
+		_0x2b.StudsOffset = Vector3.new(0, 3, 0)
+		local _0x2c = Instance.new("\x46\x72\x61\x6D\x65", _0x2b)
+		_0x2c.Size = UDim2.new(1, 0, 1, 0)
+		_0x2c.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		_0x2c.BorderSizePixel = 0
+		Instance.new("\x55\x49\x43\x6F\x72\x6E\x65\x72", _0x2c).CornerRadius = UDim.new(1, 0)
+		_0x1e = _0x2b
 	end
 end
 
 local function _0x2d(_0x2e)
-	_0x1a=not _0x1a
+	_0x1a = not _0x1a
 	if _0x1a then
-		_0x2e.Text="\x54\x50\x20\x46\x6F\x6C\x6C\x6F\x77\x3A\x20\x4F\x4E"
-		_0x2e.BackgroundColor3=Color3.fromRGB(0,200,0)
-		_0x13=tick()+_0x1c
-		_0x1d=_0x23()
+		_0x2e.Text = "\x54\x50\x20\x46\x6F\x6C\x6C\x6F\x77\x3A\x20\x4F\x4E"
+		_0x2e.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+		_0x13 = tick() + _0x1c
+		_0x1d = _0x23()
 		if _0x1d and _0x1d.Character then _0x28(_0x1d.Character) end
 	else
-		_0x2e.Text="\x54\x50\x20\x46\x6F\x6C\x6C\x6F\x77\x3A\x20\x4F\x46\x46"
-		_0x2e.BackgroundColor3=Color3.fromRGB(180,0,0)
-		_0x13=0
-		_0x1d=nil
-		if _0x1e then _0x1e:Destroy() _0x1e=nil end
+		_0x2e.Text = "\x54\x50\x20\x46\x6F\x6C\x6C\x6F\x77\x3A\x20\x4F\x46\x46"
+		_0x2e.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
+		_0x13 = 0
+		_0x1d = nil
+		if _0x1e then _0x1e:Destroy() _0x1e = nil end
 	end
 end
 
 local function _0x2f(_0x30)
 	_0x30.ChildAdded:Connect(function(_0x31)
 		if _0x31:IsA("\x54\x6F\x6F\x6C") and _0x1a then
-			_0x13=tick()+_0x1c
-			_0x1d=_0x23()
+			_0x13 = tick() + _0x1c
+			_0x1d = _0x23()
 			if _0x1d and _0x1d.Character then _0x28(_0x1d.Character) end
 		end
 	end)
 	_0x30.ChildRemoved:Connect(function(_0x31)
 		if _0x31:IsA("\x54\x6F\x6F\x6C") then
-			local _0x32=false
-			for _,_0x33 in _0x30:GetChildren() do
-				if _0x33:IsA("\x54\x6F\x6F\x6C") then _0x32=true break end
+			local _0x32 = false
+			for _, _0x33 in _0x30:GetChildren() do
+				if _0x33:IsA("\x54\x6F\x6F\x6C") then _0x32 = true break end
 			end
 			if not _0x32 then
-				_0x13=0
-				_0x1d=nil
-				if _0x1e then _0x1e:Destroy() _0x1e=nil end
+				_0x13 = 0
+				_0x1d = nil
+				if _0x1e then _0x1e:Destroy() _0x1e = nil end
 			end
 		end
 	end)
 end
 
 local function _0x34(_0x35)
-	if _0xb or not _0x9 or tick()-_0xc<_0xd then return end
-	_0xb=true
-	_0xc=tick()
-	local _0x36=_0x9.CFrame
-	local _0x37=tick()
-	local _0x38=1.8
-	local _0x39=15
+	if _0xb or not _0x9 or tick() - _0xc < _0xd then return end
+	_0xb = true
+	_0xc = tick()
+	local _0x36 = _0x9.CFrame
+	local _0x37 = tick()
+	local _0x38 = 1.8
+	local _0x39 = 15
 	local _0x3a
-	_0x3a=_0x4.Heartbeat:Connect(function()
-		local _0x3b=tick()-_0x37
-		if _0x3b>=_0xf then
+	_0x3a = _0x4.Heartbeat:Connect(function()
+		local _0x3b = tick() - _0x37
+		if _0x3b >= _0xf then
 			_0x3a:Disconnect()
-			if _0x9 and _0x9.Parent then _0x9.CFrame=_0x36 end
-			_0xb=false
+			if _0x9 and _0x9.Parent then _0x9.CFrame = _0x36 end
+			_0xb = false
 			return
 		end
-		local _0x3c=_0x35.Position
-		local _0x3d=(_0x3b/_0xf)*math.pi*2*_0x10
-		local _0x3e=_0x3b*_0x39
-		local _0x3f=Vector3.new(math.cos(_0x3d)*_0x38,0.3,math.sin(_0x3d)*_0x38)
-		local _0x40=CFrame.new(_0x3c+_0x3f,_0x3c)
-		local _0x41=CFrame.Angles(0,math.rad(_0x3e),0)
-		_0x9.CFrame=_0x40*_0x41
+		local _0x3c = _0x35.Position
+		local _0x3d = (_0x3b / _0xf) * math.pi * 2 * _0x10
+		local _0x3e = _0x3b * _0x39
+		local _0x3f = Vector3.new(math.cos(_0x3d) * _0x38, 0.3, math.sin(_0x3d) * _0x38)
+		local _0x40 = CFrame.new(_0x3c + _0x3f, _0x3c)
+		local _0x41 = CFrame.Angles(0, math.rad(_0x3e), 0)
+		_0x9.CFrame = _0x40 * _0x41
 	end)
 end
 
 local function _0x42()
-	if _0xb or not _0x9 or tick()-_0xc<_0xd then return end
-	local _0x43=_0x9.CFrame.LookVector
-	local _0x44=_0x9.Position
-	local _0x45=nil
-	local _0x46=math.huge
-	for _,_0x47 in _0x3:GetPlayers() do
-		if _0x47~=_0x6 and _0x47.Character and _0x47.Character:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74") then
-			local _0x48=_0x47.Character.HumanoidRootPart
-			local _0x49=(_0x48.Position-_0x44).Magnitude
-			local _0x4a=(_0x48.Position-_0x44).Unit
-			if _0x49<=_0xe and _0x43:Dot(_0x4a)>0.7 and _0x49<_0x46 then
-				_0x46=_0x49
-				_0x45=_0x47
+	if _0xb or not _0x9 or tick() - _0xc < _0xd then return end
+	local _0x43 = _0x9.CFrame.LookVector
+	local _0x44 = _0x9.Position
+	local _0x45 = nil
+	local _0x46 = math.huge
+	for _, _0x47 in _0x3:GetPlayers() do
+		if _0x47 ~= _0x6 and _0x47.Character and _0x47.Character:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74") then
+			local _0x48 = _0x47.Character.HumanoidRootPart
+			local _0x49 = (_0x48.Position - _0x44).Magnitude
+			local _0x4a = (_0x48.Position - _0x44).Unit
+			if _0x49 <= _0xe and _0x43:Dot(_0x4a) > 0.7 and _0x49 < _0x46 then
+				_0x46 = _0x49
+				_0x45 = _0x47
 			end
 		end
 	end
@@ -159,17 +157,17 @@ local function _0x42()
 end
 
 local function _0x4b()
-	if _0xb or not _0x9 or tick()-_0xc<_0xd then return end
-	local _0x4c=_0x9.Position
-	local _0x4d=nil
-	local _0x4e=math.huge
-	for _,_0x47 in _0x3:GetPlayers() do
-		if _0x47~=_0x6 and _0x47.Character and _0x47.Character:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74") then
-			local _0x48=_0x47.Character.HumanoidRootPart
-			local _0x49=(_0x48.Position-_0x4c).Magnitude
-			if _0x49<=_0xe and _0x49<_0x4e then
-				_0x4e=_0x49
-				_0x4d=_0x47
+	if _0xb or not _0x9 or tick() - _0xc < _0xd then return end
+	local _0x4c = _0x9.Position
+	local _0x4d = nil
+	local _0x4e = math.huge
+	for _, _0x47 in _0x3:GetPlayers() do
+		if _0x47 ~= _0x6 and _0x47.Character and _0x47.Character:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74") then
+			local _0x48 = _0x47.Character.HumanoidRootPart
+			local _0x49 = (_0x48.Position - _0x4c).Magnitude
+			if _0x49 <= _0xe and _0x49 < _0x4e then
+				_0x4e = _0x49
+				_0x4d = _0x47
 			end
 		end
 	end
@@ -178,348 +176,335 @@ end
 
 local function _0x4f()
 	if not _0x11 or not _0x11.Character or not _0x11.Character:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74") then
-		_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E",{Title="\x54\x42",Text="\x4E\x6F\x20\x74\x61\x72\x67\x65\x74\x21",Duration=2})
+		_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E", {Title = "\x54\x42", Text = "\x4E\x6F\x20\x74\x61\x72\x67\x65\x74\x21", Duration = 2})
 		return
 	end
-	if _0xb or not _0x9 or tick()-_0xc<_0xd then return end
+	if _0xb or not _0x9 or tick() - _0xc < _0xd then return end
 	_0x34(_0x11.Character.HumanoidRootPart)
 end
 
 local function _0x50()
 	if _0xa:FindFirstChild("\x54\x61\x72\x67\x65\x74\x20\x53\x65\x6C\x65\x63\x74\x6F\x72") then return end
-	local _0x51=Instance.new("\x54\x6F\x6F\x6C")
-	_0x51.Name="\x54\x61\x72\x67\x65\x74\x20\x53\x65\x6C\x65\x63\x74\x6F\x72"
-	_0x51.RequiresHandle=false
-	_0x51.Parent=_0xa
-	local _0x52=Instance.new("\x50\x61\x72\x74",_0x51)
-	_0x52.Name="\x48\x61\x6E\x64\x6C\x65"
-	_0x52.Size=Vector3.new(0.1,0.1,0.1)
-	_0x52.Transparency=1
-	_0x52.CanCollide=false
+	local _0x51 = Instance.new("\x54\x6F\x6F\x6C")
+	_0x51.Name = "\x54\x61\x72\x67\x65\x74\x20\x53\x65\x6C\x65\x63\x74\x6F\x72"
+	_0x51.RequiresHandle = false
+	_0x51.Parent = _0xa
+	local _0x52 = Instance.new("\x50\x61\x72\x74", _0x51)
+	_0x52.Name = "\x48\x61\x6E\x64\x6C\x65"
+	_0x52.Size = Vector3.new(0.1, 0.1, 0.1)
+	_0x52.Transparency = 1
+	_0x52.CanCollide = false
 	_0x51.Activated:Connect(function()
-		local _0x53=_0x7.Target
+		local _0x53 = _0x7.Target
 		if not _0x53 then return end
-		local _0x54=_0x53:FindFirstAncestorWhichIsA("\x4D\x6F\x64\x65\x6C")
+		local _0x54 = _0x53:FindFirstAncestorWhichIsA("\x4D\x6F\x64\x65\x6C")
 		if not _0x54 or not _0x54:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64") then return end
-		local _0x55=_0x3:GetPlayerFromCharacter(_0x54)
-		if not _0x55 or _0x55==_0x6 then return end
-		_0x11=_0x55
-		_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E",{Title="\x54\x42",Text="\x54\x61\x72\x67\x65\x74\x3A\x20\x40".._0x55.DisplayName,Duration=2})
+		local _0x55 = _0x3:GetPlayerFromCharacter(_0x54)
+		if not _0x55 or _0x55 == _0x6 then return end
+		_0x11 = _0x55
+		_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E", {Title = "\x54\x42", Text = "\x54\x61\x72\x67\x65\x74\x3A\x20\x40" .. _0x55.DisplayName, Duration = 2})
 	end)
-	_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E",{Title="\x54\x42",Text="\x54\x6F\x6F\x6C\x20\x67\x69\x76\x65\x6E\x21",Duration=2})
-	_0x17=true
+	_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E", {Title = "\x54\x42", Text = "\x54\x6F\x6F\x6C\x20\x67\x69\x76\x65\x6E\x21", Duration = 2})
+	_0x17 = true
 end
 
 local function _0x56()
 	if _0xa:FindFirstChild("\x54\x50\x20\x54\x6F\x6F\x6C") then return end
-	local _0x51=Instance.new("\x54\x6F\x6F\x6C")
-	_0x51.Name="\x54\x50\x20\x54\x6F\x6F\x6C"
-	_0x51.RequiresHandle=false
-	_0x51.Parent=_0xa
+	local _0x51 = Instance.new("\x54\x6F\x6F\x6C")
+	_0x51.Name = "\x54\x50\x20\x54\x6F\x6F\x6C"
+	_0x51.RequiresHandle = false
+	_0x51.Parent = _0xa
 	_0x51.Activated:Connect(function()
-		local _0x57=_0x7.Hit.Position+Vector3.new(0,2.5,0)
-		if _0x9 and _0x9.Parent then _0x9.CFrame=CFrame.new(_0x57) end
+		local _0x57 = _0x7.Hit.Position + Vector3.new(0, 2.5, 0)
+		if _0x9 and _0x9.Parent then _0x9.CFrame = CFrame.new(_0x57) end
 	end)
-	_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E",{Title="\x54\x42",Text="\x54\x50\x20\x67\x69\x76\x65\x6E\x21",Duration=2})
-	_0x18=true
+	_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E", {Title = "\x54\x42", Text = "\x54\x50\x20\x67\x69\x76\x65\x6E\x21", Duration = 2})
+	_0x18 = true
 end
 
 local function _0x58()
-	if _0x11 then _0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E",{Title="\x54\x42",Text="\x54\x61\x72\x67\x65\x74\x20\x72\x65\x6D\x6F\x76\x65\x64",Duration=2}) end
-	_0x11=nil
-	local _0x59=_0xa:FindFirstChild("\x54\x61\x72\x67\x65\x74\x20\x53\x65\x6C\x65\x63\x74\x6F\x72")
+	if _0x11 then
+		_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E", {Title = "\x54\x42", Text = "\x54\x61\x72\x67\x65\x74\x20\x72\x65\x6D\x6F\x76\x65\x64", Duration = 2})
+	end
+	_0x11 = nil
+	local _0x59 = _0xa:FindFirstChild("\x54\x61\x72\x67\x65\x74\x20\x53\x65\x6C\x65\x63\x74\x6F\x72")
 	if _0x59 then _0x59:Destroy() end
-	_0x17=false
+	_0x17 = false
 end
 
 local function _0x5a()
-	local _0x59=_0xa:FindFirstChild("\x54\x50\x20\x54\x6F\x6F\x6C")
+	local _0x59 = _0xa:FindFirstChild("\x54\x50\x20\x54\x6F\x6F\x6C")
 	if _0x59 then
 		_0x59:Destroy()
-		_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E",{Title="\x54\x42",Text="\x54\x50\x20\x72\x65\x6D\x6F\x76\x65\x64\x21",Duration=2})
+		_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E", {Title = "\x54\x42", Text = "\x54\x50\x20\x72\x65\x6D\x6F\x76\x65\x64\x21", Duration = 2})
 	end
-	_0x18=false
+	_0x18 = false
 end
 
 local function _0x5b(_0x5c)
 	if _0x1f then _0x1f:Destroy() end
-	local _0x2a=_0x5c:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74")
+	local _0x2a = _0x5c:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74")
 	if _0x2a then
-		local _0x2b=Instance.new("\x42\x69\x6C\x6C\x62\x6F\x61\x72\x64\x47\x75\x69",_0x2a)
-		_0x2b.Name="\x46\x6F\x6C\x6C\x6F\x77\x48\x69\x67\x68\x6C\x69\x67\x68\x74"
-		_0x2b.Size=UDim2.new(0,8,0,8)
-		_0x2b.AlwaysOnTop=true
-		_0x2b.StudsOffset=Vector3.new(0,3,0)
-		local _0x2c=Instance.new("\x46\x72\x61\x6D\x65",_0x2b)
-		_0x2c.Size=UDim2.new(1,0,1,0)
-		_0x2c.BackgroundColor3=Color3.fromRGB(0,255,0)
-		_0x2c.BorderSizePixel=0
-		Instance.new("\x55\x49\x43\x6F\x72\x6E\x65\x72",_0x2c).CornerRadius=UDim.new(1,0)
-		_0x1f=_0x2b
+		local _0x2b = Instance.new("\x42\x69\x6C\x6C\x62\x6F\x61\x72\x64\x47\x75\x69", _0x2a)
+		_0x2b.Name = "\x46\x6F\x6C\x6C\x6F\x77\x48\x69\x67\x68\x6C\x69\x67\x68\x74"
+		_0x2b.Size = UDim2.new(0, 8, 0, 8)
+		_0x2b.AlwaysOnTop = true
+		_0x2b.StudsOffset = Vector3.new(0, 3, 0)
+		local _0x2c = Instance.new("\x46\x72\x61\x6D\x65", _0x2b)
+		_0x2c.Size = UDim2.new(1, 0, 1, 0)
+		_0x2c.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+		_0x2c.BorderSizePixel = 0
+		Instance.new("\x55\x49\x43\x6F\x72\x6E\x65\x72", _0x2c).CornerRadius = UDim.new(1, 0)
+		_0x1f = _0x2b
 	end
 end
 
 local function _0x5d(_0x5e)
-	_0x12=not _0x12
+	_0x12 = not _0x12
 	if _0x12 then
-		_0x5e.Text="\x46\x6F\x6C\x6C\x6F\x77\x3A\x20\x4F\x4E"
-		_0x5e.BackgroundColor3=Color3.fromRGB(0,200,0)
-		_0x13=tick()+_0x16
-		_0x14=nil
+		_0x5e.Text = "\x46\x6F\x6C\x6C\x6F\x77\x3A\x20\x4F\x4E"
+		_0x5e.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+		_0x13 = tick() + _0x16
+		_0x14 = nil
 	else
-		_0x5e.Text="\x46\x6F\x6C\x6C\x6F\x77\x3A\x20\x4F\x46\x46"
-		_0x5e.BackgroundColor3=Color3.fromRGB(180,0,0)
-		_0x13=0
-		_0x14=nil
-		if _0x1f then _0x1f:Destroy() _0x1f=nil end
-	end
-end
-
-local function _0x5f(_0x60)
-	_0x20=not _0x20
-	if _0x20 then
-		_0x60.Text="\x46\x61\x6B\x65\x20\x4A\x75\x6D\x70\x73\x3A\x20\x4F\x4E"
-		_0x60.BackgroundColor3=Color3.fromRGB(0,200,0)
-		_0x22=tick()
-	else
-		_0x60.Text="\x46\x61\x6B\x65\x20\x4A\x75\x6D\x70\x73\x3A\x20\x4F\x46\x46"
-		_0x60.BackgroundColor3=Color3.fromRGB(180,0,0)
+		_0x5e.Text = "\x46\x6F\x6C\x6C\x6F\x77\x3A\x20\x4F\x46\x46"
+		_0x5e.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
+		_0x13 = 0
+		_0x14 = nil
+		if _0x1f then _0x1f:Destroy() _0x1f = nil end
 	end
 end
 
 local function _0x61()
 	if _0x19 and _0x19.Parent then _0x19:Destroy() end
-	_0x19=nil
-	_0x1b=false
-	_0x1a=false
-	_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E",{Title="\x54\x42",Text="\x47\x55\x49\x20\x63\x6C\x6F\x73\x65\x64",Duration=3})
+	_0x19 = nil
+	_0x1b = false
+	_0x1a = false
+	_0xGUI_CLOSED = true  -- фикс: GUI больше не появится
+	_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E", {Title = "\x54\x42", Text = "\x47\x55\x49\x20\x63\x6C\x6F\x73\x65\x64", Duration = 3})
 end
 
 local function _0x62()
 	if _0x1b or _0x1a then return end
-	_0x19=Instance.new("\x53\x63\x72\x65\x65\x6E\x47\x75\x69")
-	_0x19.Name="\x54\x69\x6D\x65\x62\x6F\x6D\x62\x47\x55\x49"
-	_0x19.ResetOnSpawn=false
-	_0x19.Parent=_0x6:WaitForChild("\x50\x6C\x61\x79\x65\x72\x47\x75\x69")
-	local _0x63=Instance.new("\x46\x72\x61\x6D\x65",_0x19)
-	_0x63.Size=UDim2.new(0,200,0,200)
-	_0x63.Position=UDim2.new(0.5,-100,0.5,-100)
-	_0x63.BackgroundColor3=Color3.fromRGB(20,20,30)
-	_0x63.BorderSizePixel=2
-	_0x63.BorderColor3=Color3.fromRGB(255,50,50)
-	_0x63.Active=true
-	_0x63.Draggable=true
-	local _0x64=Instance.new("\x46\x72\x61\x6D\x65",_0x63)
-	_0x64.Size=UDim2.new(1,0,0,25)
-	_0x64.BackgroundColor3=Color3.fromRGB(35,35,50)
-	local _0x65=Instance.new("\x54\x65\x78\x74\x4C\x61\x62\x65\x6C",_0x64)
-	_0x65.Size=UDim2.new(1,-80,1,0)
-	_0x65.Position=UDim2.new(0,5,0,0)
-	_0x65.BackgroundTransparency=1
-	_0x65.Text="\x54\x42\x20\x7C\x20\x73\x6C\x69\x76\x6B\x69\x6E\x65\x65\x70\x79"
-	_0x65.TextColor3=Color3.fromRGB(255,255,100)
-	_0x65.Font=Enum.Font.GothamBold
-	_0x65.TextSize=13
-	local _0x66=Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E",_0x64)
-	_0x66.Size=UDim2.new(0,30,0,30)
-	_0x66.Position=UDim2.new(1,-70,0,-3)
-	_0x66.BackgroundTransparency=1
-	_0x66.Text="-"
-	_0x66.TextColor3=Color3.fromRGB(200,200,200)
-	_0x66.Font=Enum.Font.GothamBold
-	_0x66.TextSize=18
-	local _0x67=Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E",_0x64)
-	_0x67.Size=UDim2.new(0,30,0,30)
-	_0x67.Position=UDim2.new(1,-70,0,-3)
-	_0x67.BackgroundTransparency=1
-	_0x67.Text="+"
-	_0x67.TextColor3=Color3.fromRGB(100,255,100)
-	_0x67.Font=Enum.Font.GothamBold
-	_0x67.TextSize=18
-	_0x67.Visible=false
-	local _0x68=Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E",_0x64)
-	_0x68.Size=UDim2.new(0,30,0,30)
-	_0x68.Position=UDim2.new(1,-35,0,-3)
-	_0x68.BackgroundTransparency=1
-	_0x68.Text="X"
-	_0x68.TextColor3=Color3.fromRGB(255,80,80)
-	_0x68.Font=Enum.Font.GothamBold
-	_0x68.TextSize=18
-	_0x68.AutoButtonColor=false
-	local _0x69=Instance.new("\x46\x72\x61\x6D\x65",_0x63)
-	_0x69.Size=UDim2.new(1,0,1,-25)
-	_0x69.Position=UDim2.new(0,0,0,25)
-	_0x69.BackgroundTransparency=1
-	_0x69.ClipsDescendants=true
-	local _0x6a=Instance.new("\x53\x63\x72\x6F\x6C\x6C\x69\x6E\x67\x46\x72\x61\x6D\x65",_0x69)
-	_0x6a.Size=UDim2.new(1,-15,1,0)
-	_0x6a.Position=UDim2.new(0,8,0,0)
-	_0x6a.BackgroundTransparency=1
-	_0x6a.ScrollBarThickness=5
-	_0x6a.AutomaticCanvasSize=Enum.AutomaticSize.Y
-	_0x6a.CanvasSize=UDim2.new(0,0,0,0)
-	local _0x6b=Instance.new("\x55\x49\x4C\x69\x73\x74\x4C\x61\x79\x6F\x75\x74",_0x6a)
-	_0x6b.Padding=UDim.new(0,5)
-	_0x6b.FillDirection=Enum.FillDirection.Vertical
-	local _0x6c=_0x63.Size
-	local _0x6d=UDim2.new(0,200,0,25)
-	local _0x6e=false
+	_0x19 = Instance.new("\x53\x63\x72\x65\x65\x6E\x47\x75\x69")
+	_0x19.Name = "\x54\x69\x6D\x65\x62\x6F\x6D\x62\x47\x55\x49"
+	_0x19.ResetOnSpawn = false
+	_0x19.Parent = _0x6:WaitForChild("\x50\x6C\x61\x79\x65\x72\x47\x75\x69")
+	local _0x63 = Instance.new("\x46\x72\x61\x6D\x65", _0x19)
+	_0x63.Size = UDim2.new(0, 200, 0, 200)
+	_0x63.Position = UDim2.new(0.5, -100, 0.5, -100)
+	_0x63.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+	_0x63.BorderSizePixel = 2
+	_0x63.BorderColor3 = Color3.fromRGB(255, 50, 50)
+	_0x63.Active = true
+	_0x63.Draggable = true
+	local _0x64 = Instance.new("\x46\x72\x61\x6D\x65", _0x63)
+	_0x64.Size = UDim2.new(1, 0, 0, 25)
+	_0x64.BackgroundColor3 = Color3.fromRGB(35, 35, 50)
+	local _0x65 = Instance.new("\x54\x65\x78\x74\x4C\x61\x62\x65\x6C", _0x64)
+	_0x65.Size = UDim2.new(1, -80, 1, 0)
+	_0x65.Position = UDim2.new(0, 5, 0, 0)
+	_0x65.BackgroundTransparency = 1
+	_0x65.Text = "\x54\x42\x20\x7C\x20\x73\x6C\x69\x76\x6B\x69\x6E\x65\x65\x70\x79"
+	_0x65.TextColor3 = Color3.fromRGB(255, 255, 100)
+	_0x65.Font = Enum.Font.GothamBold
+	_0x65.TextSize = 13
+	local _0x66 = Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E", _0x64)
+	_0x66.Size = UDim2.new(0, 30, 0, 30)
+	_0x66.Position = UDim2.new(1, -70, 0, -3)
+	_0x66.BackgroundTransparency = 1
+	_0x66.Text = "-"
+	_0x66.TextColor3 = Color3.fromRGB(200, 200, 200)
+	_0x66.Font = Enum.Font.GothamBold
+	_0x66.TextSize = 18
+	local _0x67 = Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E", _0x64)
+	_0x67.Size = UDim2.new(0, 30, 0, 30)
+	_0x67.Position = UDim2.new(1, -70, 0, -3)
+	_0x67.BackgroundTransparency = 1
+	_0x67.Text = "+"
+	_0x67.TextColor3 = Color3.fromRGB(100, 255, 100)
+	_0x67.Font = Enum.Font.GothamBold
+	_0x67.TextSize = 18
+	_0x67.Visible = false
+	local _0x68 = Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E", _0x64)
+	_0x68.Size = UDim2.new(0, 30, 0, 30)
+	_0x68.Position = UDim2.new(1, -35, 0, -3)
+	_0x68.BackgroundTransparency = 1
+	_0x68.Text = "X"
+	_0x68.TextColor3 = Color3.fromRGB(255, 80, 80)
+	_0x68.Font = Enum.Font.GothamBold
+	_0x68.TextSize = 18
+	_0x68.AutoButtonColor = false
+	local _0x69 = Instance.new("\x46\x72\x61\x6D\x65", _0x63)
+	_0x69.Size = UDim2.new(1, 0, 1, -25)
+	_0x69.Position = UDim2.new(0, 0, 0, 25)
+	_0x69.BackgroundTransparency = 1
+	_0x69.ClipsDescendants = true
+	local _0x6a = Instance.new("\x53\x63\x72\x6F\x6C\x6C\x69\x6E\x67\x46\x72\x61\x6D\x65", _0x69)
+	_0x6a.Size = UDim2.new(1, -15, 1, 0)
+	_0x6a.Position = UDim2.new(0, 8, 0, 0)
+	_0x6a.BackgroundTransparency = 1
+	_0x6a.ScrollBarThickness = 5
+	_0x6a.AutomaticCanvasSize = Enum.AutomaticSize.Y
+	_0x6a.CanvasSize = UDim2.new(0, 0, 0, 0)
+	local _0x6b = Instance.new("\x55\x49\x4C\x69\x73\x74\x4C\x61\x79\x6F\x75\x74", _0x6a)
+	_0x6b.Padding = UDim.new(0, 5)
+	_0x6b.FillDirection = Enum.FillDirection.Vertical
+	local _0x6c = _0x63.Size
+	local _0x6d = UDim2.new(0, 200, 0, 25)
+	local _0x6e = false
 	_0x66.MouseButton1Click:Connect(function()
 		if _0x6e then return end
-		_0x6e=true
-		_0x66.Visible=false
-		_0x67.Visible=true
-		_0x69.Visible=false
-		_0x63:TweenSize(_0x6d,"Out","Quad",0.2,true)
+		_0x6e = true
+		_0x66.Visible = false
+		_0x67.Visible = true
+		_0x69.Visible = false
+		_0x63:TweenSize(_0x6d, "Out", "Quad", 0.2, true)
 	end)
 	_0x67.MouseButton1Click:Connect(function()
 		if not _0x6e then return end
-		_0x6e=false
-		_0x67.Visible=false
-		_0x66.Visible=true
-		_0x63:TweenSize(_0x6c,"Out","Quad",0.2,true,function() _0x69.Visible=true end)
+		_0x6e = false
+		_0x67.Visible = false
+		_0x66.Visible = true
+		_0x63:TweenSize(_0x6c, "Out", "Quad", 0.2, true, function() _0x69.Visible = true end)
 	end)
 	_0x68.MouseButton1Click:Connect(function()
-		local _0x6f=Instance.new("\x53\x63\x72\x65\x65\x6E\x47\x75\x69")
-		_0x6f.Parent=_0x6.PlayerGui
-		_0x6f.Name="\x43\x6F\x6E\x66\x69\x72\x6D\x43\x6C\x6F\x73\x65"
-		local _0x70=Instance.new("\x46\x72\x61\x6D\x65",_0x6f)
-		_0x70.Size=UDim2.new(0,220,0,110)
-		_0x70.Position=UDim2.new(0.5,-110,0.5,-55)
-		_0x70.BackgroundColor3=Color3.fromRGB(30,30,40)
-		_0x70.BorderSizePixel=2
-		_0x70.BorderColor3=Color3.fromRGB(255,50,50)
-		local _0x71=Instance.new("\x54\x65\x78\x74\x4C\x61\x62\x65\x6C",_0x70)
-		_0x71.Size=UDim2.new(1,0,0.5,0)
-		_0x71.BackgroundTransparency=1
-		_0x71.Text="\x43\x6C\x6F\x73\x65\x20\x47\x55\x49\x3F"
-		_0x71.TextColor3=Color3.fromRGB(255,255,100)
-		_0x71.Font=Enum.Font.GothamBold
-		_0x71.TextSize=18
-		local _0x72=Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E",_0x70)
-		_0x72.Size=UDim2.new(0.45,0,0.35,0)
-		_0x72.Position=UDim2.new(0.05,0,0.55,0)
-		_0x72.BackgroundColor3=Color3.fromRGB(50,150,50)
-		_0x72.Text="\x59\x65\x73"
-		_0x72.TextColor3=Color3.new(1,1,1)
-		_0x72.Font=Enum.Font.GothamBold
-		_0x72.TextSize=16
+		local _0x6f = Instance.new("\x53\x63\x72\x65\x65\x6E\x47\x75\x69")
+		_0x6f.Name = "\x43\x6F\x6E\x66\x69\x72\x6D\x43\x6C\x6F\x73\x65"
+		_0x6f.Parent = _0x6.PlayerGui
+		local _0x70 = Instance.new("\x46\x72\x61\x6D\x65", _0x6f)
+		_0x70.Size = UDim2.new(0, 220, 0, 110)
+		_0x70.Position = UDim2.new(0.5, -110, 0.5, -55)
+		_0x70.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+		_0x70.BorderSizePixel = 2
+		_0x70.BorderColor3 = Color3.fromRGB(255, 50, 50)
+		local _0x71 = Instance.new("\x54\x65\x78\x74\x4C\x61\x62\x65\x6C", _0x70)
+		_0x71.Size = UDim2.new(1, 0, 0.5, 0)
+		_0x71.BackgroundTransparency = 1
+		_0x71.Text = "\x43\x6C\x6F\x73\x65\x20\x47\x55\x49\x3F"
+		_0x71.TextColor3 = Color3.fromRGB(255, 255, 100)
+		_0x71.Font = Enum.Font.GothamBold
+		_0x71.TextSize = 18
+		local _0x72 = Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E", _0x70)
+		_0x72.Size = UDim2.new(0.45, 0, 0.35, 0)
+		_0x72.Position = UDim2.new(0.05, 0, 0.55, 0)
+		_0x72.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+		_0x72.Text = "\x59\x65\x73"
+		_0x72.TextColor3 = Color3.new(1, 1, 1)
+		_0x72.Font = Enum.Font.GothamBold
+		_0x72.TextSize = 16
 		_0x72.MouseButton1Click:Connect(function()
 			_0x58()
 			_0x5a()
 			_0x61()
 			_0x6f:Destroy()
 		end)
-		local _0x73=Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E",_0x70)
-		_0x73.Size=UDim2.new(0.45,0,0.35,0)
-		_0x73.Position=UDim2.new(0.5,0,0.55,0)
-		_0x73.BackgroundColor3=Color3.fromRGB(150,50,50)
-		_0x73.Text="\x4E\x6F"
-		_0x73.TextColor3=Color3.new(1,1,1)
-		_0x73.Font=Enum.Font.GothamBold
-		_0x73.TextSize=16
+		local _0x73 = Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E", _0x70)
+		_0x73.Size = UDim2.new(0.45, 0, 0.35, 0)
+		_0x73.Position = UDim2.new(0.5, 0, 0.55, 0)
+		_0x73.BackgroundColor3 = Color3.fromRGB(150, 50, 50)
+		_0x73.Text = "\x4E\x6F"
+		_0x73.TextColor3 = Color3.new(1, 1, 1)
+		_0x73.Font = Enum.Font.GothamBold
+		_0x73.TextSize = 16
 		_0x73.MouseButton1Click:Connect(function() _0x6f:Destroy() end)
 	end)
-	local function _0x74(_0x75,_0x76,_0x77)
-		local _0x78=Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E",_0x6a)
-		_0x78.Size=UDim2.new(1,0,0,30)
-		_0x78.BackgroundColor3=_0x76
-		_0x78.Text=_0x75
-		_0x78.TextColor3=Color3.new(1,1,1)
-		_0x78.Font=Enum.Font.Gotham
-		_0x78.TextSize=12
-		_0x78.AutoButtonColor=false
+	local function _0x74(_0x75, _0x76, _0x77)
+		local _0x78 = Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E", _0x6a)
+		_0x78.Size = UDim2.new(1, 0, 0, 30)
+		_0x78.BackgroundColor3 = _0x76
+		_0x78.Text = _0x75
+		_0x78.TextColor3 = Color3.new(1, 1, 1)
+		_0x78.Font = Enum.Font.Gotham
+		_0x78.TextSize = 12
+		_0x78.AutoButtonColor = false
 		_0x78.MouseButton1Click:Connect(function() spawn(_0x77) end)
-		_0x78.MouseEnter:Connect(function() _0x78.BackgroundColor3=_0x76:lerp(Color3.new(1,1,1),0.2) end)
-		_0x78.MouseLeave:Connect(function() _0x78.BackgroundColor3=_0x76 end)
+		_0x78.MouseEnter:Connect(function() _0x78.BackgroundColor3 = _0x76:lerp(Color3.new(1, 1, 1), 0.2) end)
+		_0x78.MouseLeave:Connect(function() _0x78.BackgroundColor3 = _0x76 end)
 	end
-	_0x74("\x4F\x72\x62\x69\x74\x20\x62\x79\x20\x4C\x6F\x6F\x6B",Color3.fromRGB(50,70,60),_0x42)
-	_0x74("\x4F\x72\x62\x69\x74\x20\x4E\x65\x61\x72\x65\x73\x74",Color3.fromRGB(55,65,85),_0x4b)
-	_0x74("\x54\x61\x72\x67\x65\x74\x20\x54\x6F\x6F\x6C",Color3.fromRGB(0,130,210),function() _0x17=true _0x50() end)
-	_0x74("\x4F\x72\x62\x69\x74\x20\x54\x61\x72\x67\x65\x74",Color3.fromRGB(85,55,105),_0x4f)
-	_0x74("\x52\x65\x6D\x6F\x76\x65\x20\x54\x61\x72\x67\x65\x74",Color3.fromRGB(150,55,55),_0x58)
-	_0x74("\x54\x50\x20\x54\x6F\x6F\x6C",Color3.fromRGB(0,160,210),function() _0x18=true _0x56() end)
-	_0x74("\x43\x6C\x65\x61\x72\x20\x54\x50",Color3.fromRGB(210,90,0),_0x5a)
-	_0x74("\x46\x61\x6B\x65\x20\x4A\x75\x6D\x70\x73",Color3.fromRGB(180,0,0),_0x5f)
-	local _0x79=Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E",_0x6a)
-	_0x79.Size=UDim2.new(0,120,0,50)
-	_0x79.BackgroundColor3=Color3.fromRGB(180,0,0)
-	_0x79.TextColor3=Color3.new(1,1,1)
-	_0x79.Font=Enum.Font.GothamBold
-	_0x79.TextSize=18
-	_0x79.Text="\x54\x50\x20\x46\x6F\x6C\x6C\x6F\x77\x3A\x20\x4F\x46\x46"
-	_0x79.AutoButtonColor=false
+	_0x74("\x4F\x72\x62\x69\x74\x20\x62\x79\x20\x4C\x6F\x6F\x6B", Color3.fromRGB(50, 70, 60), _0x42)
+	_0x74("\x4F\x72\x62\x69\x74\x20\x4E\x65\x61\x72\x65\x73\x74", Color3.fromRGB(55, 65, 85), _0x4b)
+	_0x74("\x54\x61\x72\x67\x65\x74\x20\x54\x6F\x6F\x6C", Color3.fromRGB(0, 130, 210), function() _0x17 = true _0x50() end)
+	_0x74("\x4F\x72\x62\x69\x74\x20\x54\x61\x72\x67\x65\x74", Color3.fromRGB(85, 55, 105), _0x4f)
+	_0x74("\x52\x65\x6D\x6F\x76\x65\x20\x54\x61\x72\x67\x65\x74", Color3.fromRGB(150, 55, 55), _0x58)
+	_0x74("\x54\x50\x20\x54\x6F\x6F\x6C", Color3.fromRGB(0, 160, 210), function() _0x18 = true _0x56() end)
+	_0x74("\x43\x6C\x65\x61\x72\x20\x54\x50", Color3.fromRGB(210, 90, 0), _0x5a)
+	local _0x79 = Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E", _0x6a)
+	_0x79.Size = UDim2.new(0, 120, 0, 50)
+	_0x79.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
+	_0x79.TextColor3 = Color3.new(1, 1, 1)
+	_0x79.Font = Enum.Font.GothamBold
+	_0x79.TextSize = 18
+	_0x79.Text = "\x54\x50\x20\x46\x6F\x6C\x6C\x6F\x77\x3A\x20\x4F\x46\x46"
+	_0x79.AutoButtonColor = false
 	_0x79.MouseButton1Click:Connect(function() _0x2d(_0x79) end)
-	_0x79.MouseEnter:Connect(function() if not _0x1a then _0x79.BackgroundColor3=Color3.fromRGB(180,0,0):lerp(Color3.new(1,1,1),0.2) end end)
-	_0x79.MouseLeave:Connect(function() _0x79.BackgroundColor3=(_0x1a and Color3.fromRGB(0,200,0) or Color3.fromRGB(180,0,0)) end)
-	local _0x7a=Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E",_0x6a)
-	_0x7a.Size=UDim2.new(1,0,0,30)
-	_0x7a.BackgroundColor3=Color3.fromRGB(180,0,0)
-	_0x7a.Text="\x46\x6F\x6C\x6C\x6F\x77\x3A\x20\x4F\x46\x46"
-	_0x7a.TextColor3=Color3.new(1,1,1)
-	_0x7a.Font=Enum.Font.Gotham
-	_0x7a.TextSize=12
-	_0x7a.AutoButtonColor=false
+	_0x79.MouseEnter:Connect(function() if not _0x1a then _0x79.BackgroundColor3 = Color3.fromRGB(180, 0, 0):lerp(Color3.new(1, 1, 1), 0.2) end end)
+	_0x79.MouseLeave:Connect(function() _0x79.BackgroundColor3 = (_0x1a and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(180, 0, 0)) end)
+	local _0x7a = Instance.new("\x54\x65\x78\x74\x42\x75\x74\x74\x6F\x6E", _0x6a)
+	_0x7a.Size = UDim2.new(1, 0, 0, 30)
+	_0x7a.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
+	_0x7a.Text = "\x46\x6F\x6C\x6C\x6F\x77\x3A\x20\x4F\x46\x46"
+	_0x7a.TextColor3 = Color3.new(1, 1, 1)
+	_0x7a.Font = Enum.Font.Gotham
+	_0x7a.TextSize = 12
+	_0x7a.AutoButtonColor = false
 	_0x7a.MouseButton1Click:Connect(function() _0x5d(_0x7a) end)
-	_0x1b=true
+	_0x1b = true
 end
 
 _0x4.RenderStepped:Connect(function()
-	if _0x1a and tick()<_0x13 then
+	if _0x1a and tick() < _0x13 then
 		if not _0x1d or not _0x1d.Character or not _0x1d.Character:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74") then
-			_0x1d=_0x23()
+			_0x1d = _0x23()
 			if _0x1d and _0x1d.Character then _0x28(_0x1d.Character) end
 		end
 		if _0x1d and _0x1d.Character and _0x9 then
-			local _0x7b=_0x1d.Character:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74")
+			local _0x7b = _0x1d.Character:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74")
 			if _0x7b then
-				_0x9.CFrame=CFrame.new(_0x7b.Position+Vector3.new(0,3,0))
+				_0x9.CFrame = CFrame.new(_0x7b.Position + Vector3.new(0, 3, 0))
 			end
 		end
 	end
-	if _0x12 and tick()<_0x13 then
+	if _0x12 and tick() < _0x13 then
 		if not _0x14 or not _0x14.Character or not _0x14.Character:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74") then
-			_0x14=_0x23()
+			_0x14 = _0x23()
 			if _0x14 and _0x14.Character then _0x5b(_0x14.Character) end
 		end
 		if _0x14 and _0x14.Character and _0x8 then
-			local _0x7b=_0x14.Character:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74")
-			local _0x7c=_0x8:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64")
+			local _0x7b = _0x14.Character:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74")
+			local _0x7c = _0x8:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64")
 			if _0x7b and _0x7c then _0x7c:MoveTo(_0x7b.Position) end
-		end
-	end
-	if _0x20 and _0x8 and _0x8:FindFirstChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64") then
-		local _0x7d=tick()
-		if _0x7d-_0x22>0.15 then
-			_0x8.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-			_0x22=_0x7d
 		end
 	end
 end)
 
 _0x6.CharacterAdded:Connect(function(_0x7e)
-	_0x8=_0x7e
-	_0x9=_0x7e:WaitForChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74",10)
-	_0xa=_0x6:WaitForChild("\x42\x61\x63\x6B\x70\x61\x63\x6B")
+	_0x8 = _0x7e
+	_0x9 = _0x7e:WaitForChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74", 10)
+	_0xa = _0x6:WaitForChild("\x42\x61\x63\x6B\x70\x61\x63\x6B")
 	if _0x17 then _0x50() end
 	if _0x18 then _0x56() end
-	if _0x12 then _0x13=tick()+_0x16 end
+	if _0x12 then _0x13 = tick() + _0x16 end
 	_0x2f(_0x7e)
-	if not _0x1a then _0x62() end
+	if not _0x1a and not _0xGUI_CLOSED then  -- фикс
+		_0x62()
+	end
 end)
 
 if _0x6.Character then
-	_0x8=_0x6.Character
-	_0x9=_0x6.Character:WaitForChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74",10)
-	_0xa=_0x6:WaitForChild("\x42\x61\x63\x6B\x70\x61\x63\x6B")
+	_0x8 = _0x6.Character
+	_0x9 = _0x6.Character:WaitForChild("\x48\x75\x6D\x61\x6E\x6F\x69\x64\x52\x6F\x6F\x74\x50\x61\x72\x74", 10)
+	_0xa = _0x6:WaitForChild("\x42\x61\x63\x6B\x70\x61\x63\x6B")
 	if _0x17 then _0x50() end
 	if _0x18 then _0x56() end
 	_0x2f(_0x6.Character)
-	if not _0x1a then _0x62() end
+	if not _0x1a and not _0xGUI_CLOSED then  -- фикс
+		_0x62()
+	end
 end
 
 spawn(function()
 	pcall(function()
-		_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E",{Title="\x54\x62",Text="\x73\x63\x72\x69\x70\x74\x20\x6C\x6F\x61\x64\x65\x64\x20\x7C\x20\x73\x6C\x69\x76\x6B\x69\x6E\x65\x65\x70\x79",Duration=2})
+		_0x5:SetCore("\x53\x65\x6E\x64\x4E\x6F\x74\x69\x66\x69\x63\x61\x74\x69\x6F\x6E", {Title = "\x54\x62", Text = "\x73\x63\x72\x69\x70\x74\x20\x6C\x6F\x61\x64\x65\x64\x20\x7C\x20\x73\x6C\x69\x76\x6B\x69\x6E\x65\x65\x70\x79", Duration = 2})
 	end)
 end)
