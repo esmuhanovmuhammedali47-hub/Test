@@ -1,15 +1,20 @@
+-- Advanced Script Security System (Fully Fixed for Delta & Mobile Executors)
+
 local TARGET_GAME_ID = 109983668079237
 
 if game.PlaceId ~= TARGET_GAME_ID then
-    game:GetService("Players").LocalPlayer:Kick("wrong game bud")
+    pcall(function()
+        game:GetService("Players").LocalPlayer:Kick("wrong game bud")
+    end)
     return
 end
 
--- Safe player reference with nil protection
+-- Safe early references to avoid any nil calls
 local Players = game:GetService("Players")
-local MainPlayer = Players.LocalPlayer
-if not MainPlayer then
-    warn("Player not found")
+local LocalPlayer = Players.LocalPlayer
+
+if not LocalPlayer then
+    warn("LocalPlayer not available yet")
     return
 end
 
@@ -22,133 +27,131 @@ _G.CoreServices = {
     TeleportService = game:GetService("TeleportService"),
     CoreGui = game:GetService("CoreGui")
 }
-_G.MainPlayer = MainPlayer
+_G.MainPlayer = LocalPlayer
 
--- Safe character references (avoid calling on nil)
+-- Safe character setup (no forced wait or nil access)
 pcall(function()
-    if _G.MainPlayer.Character then
-        _G.PlayerChar = _G.MainPlayer.Character
-        _G.PlayerHum = _G.PlayerChar:FindFirstChildOfClass("Humanoid")
-        _G.PlayerHRP = _G.PlayerChar:FindFirstChild("HumanoidRootPart")
+    if LocalPlayer.Character then
+        _G.PlayerChar = LocalPlayer.Character
+        _G.PlayerHum = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        _G.PlayerHRP = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    end
+    -- Optional: listen for character added if needed later
+    LocalPlayer.CharacterAdded:Connect(function(char)
+        _G.PlayerChar = char
+        _G.PlayerHum = char:FindFirstChildOfClass("Humanoid")
+        _G.PlayerHRP = char:FindFirstChild("HumanoidRootPart")
+    end)
+end)
+
+-- Anti-debug check (safe)
+pcall(function()
+    if debug and debug.getinfo then
+        local info = debug.getinfo(1, "S")
+        if info and info.source and info.source:find("@") then
+            LocalPlayer:Kick("Unauthorized execution detected")
+        end
     end
 end)
 
-_G._0xK9L2 = {[1]="\108\111\99\97\108",[2]="\103\97\109\101",[3]="\71\101\116\83\101\114\118\105\99\101",[4]="\80\108\97\121\101\114\115",[5]="\76\111\99\97\108\80\108\97\121\101\114"}
-_G._0xM3N7 = function(idx) 
-    return _G._0xK9L2[idx] or ""
-end
-_G._0xP8Q1 = _G._0xM3N7(1) .. " " .. _G._0xM3N7(2) .. " = " .. _G._0xM3N7(2) .. ":" .. _G._0xM3N7(3) .. "(" .. _G._0xM3N7(4) .. "):" .. _G._0xM3N7(5) .. "()"
-
-pcall(function()
-    loadstring(_G._0xP8Q1)()
-end)
-
-_G._0xR4T6 = function()
-    pcall(function()
-        local infoFunc = debug.getinfo
-        if infoFunc then
-            local srcInfo = infoFunc(1, "S")
-            if srcInfo and srcInfo.source and srcInfo.source:find("@") then
-                MainPlayer:Kick("Unauthorized execution detected")
-            end
-        end
-    end)
-end
-pcall(_G._0xR4T6)
-
-if not hookmetamethod then
-    warn('[Security] Required feature missing - terminating.')
-    return
-end
+-- Skip hookmetamethod requirement for mobile executors like Delta
+-- Many mobile executors don't have it, but the rest of protection still works
+-- if not hookmetamethod then
+--     warn('[Security] hookmetamethod not available - some protections disabled.')
+-- end
 
 _G.scanExecutorCaps = function()
     _G.AvailableCaps = {
-        hookmetamethod = hookmetamethod ~= nil,
-        getrawmetatable = getrawmetatable ~= nil,
-        setrawmetatable = setrawmetatable ~= nil,
-        islclosure = islclosure ~= nil,
-        newcclosure = newcclosure ~= nil,
-        sethiddenproperty = sethiddenproperty ~= nil,
-        gethiddenproperty = gethiddenproperty ~= nil,
-        getgenv = getgenv ~= nil,
-        getrenv = getrenv ~= nil,
-        writefile = writefile ~= nil,
-        readfile = readfile ~= nil,
-        isfile = isfile ~= nil,
-        delfile = delfile ~= nil,
-        listfiles = listfiles ~= nil,
-        makefolder = makefolder ~= nil,
-        isfolder = isfolder ~= nil,
-        delfolder = delfolder ~= nil,
-        gethui = gethui ~= nil,
-        get_hidden_ui = get_hidden_ui ~= nil,
-        syn = syn ~= nil,
-        http_request = http_request ~= nil,
-        request = request ~= nil,
-        gameHttpGet = game.HttpGet ~= nil
+        hookmetamethod = pcall(function() return hookmetamethod end) and hookmetamethod ~= nil,
+        getrawmetatable = pcall(function() return getrawmetatable end) and getrawmetatable ~= nil,
+        islclosure = pcall(function() return islclosure end) and islclosure ~= nil,
+        newcclosure = pcall(function() return newcclosure end) and newcclosure ~= nil,
+        sethiddenproperty = pcall(function() return sethiddenproperty end) and sethiddenproperty ~= nil,
+        gethiddenproperty = pcall(function() return gethiddenproperty end) and gethiddenproperty ~= nil,
+        writefile = pcall(function() return writefile end) and writefile ~= nil,
+        readfile = pcall(function() return readfile end) and readfile ~= nil,
+        isfile = pcall(function() return isfile end) and isfile ~= nil,
+        makefolder = pcall(function() return makefolder end) and makefolder ~= nil,
+        gethui = pcall(function() return gethui end) and gethui ~= nil,
+        get_hidden_ui = pcall(function() return get_hidden_ui end) and get_hidden_ui ~= nil,
+        http_request = pcall(function() return http_request end) and http_request ~= nil,
+        request = pcall(function() return request end) and request ~= nil,
+        gameHttpGet = true  -- game.HttpGet always exists
     }
-    
     return _G.AvailableCaps
 end
 
 _G.Caps = _G.scanExecutorCaps()
 
-_G.writeSecureFile = function(path, data) if _G.Caps.writefile then pcall(writefile, path, data) end end
-_G.readSecureFile = function(path) if _G.Caps.readfile then local s, c = pcall(readfile, path) if s then return c end end return nil end
-_G.fileExistsSecure = function(path) if _G.Caps.isfile then local s, e = pcall(isfile, path) return s and e end return false end
-_G.createSecureFolder = function(path) if _G.Caps.makefolder then pcall(makefolder, path) end end
+-- Safe utilities
+_G.writeSecureFile = function(path, data)
+    if _G.Caps.writefile then pcall(writefile, path, data) end
+end
 
-_G.setHiddenPropSecure = function(obj, prop, val) if _G.Caps.sethiddenproperty and obj then pcall(sethiddenproperty, obj, prop, val) end end
-_G.getHiddenPropSecure = function(obj, prop) if _G.Caps.gethiddenproperty and obj then local s, v = pcall(gethiddenproperty, obj, prop) if s then return v end end return nil end
-
-_G.performHttpGet = function(url)
-    if _G.Caps.http_request then local s, r = pcall(http_request, {Url = url, Method = "GET"}) if s and r and r.Body then return r.Body end
-    elseif _G.Caps.request then local s, r = pcall(request, {Url = url, Method = "GET"}) if s and r and r.Body then return r.Body end
-    elseif _G.Caps.gameHttpGet then local s, r = pcall(game.HttpGet, game, url) if s then return r end end
+_G.readSecureFile = function(path)
+    if _G.Caps.readfile then
+        local success, content = pcall(readfile, path)
+        if success then return content end
+    end
     return nil
 end
 
+_G.performHttpGet = function(url)
+    if _G.Caps.http_request then
+        local success, response = pcall(http_request, {Url = url, Method = "GET"})
+        if success and response and response.Body then return response.Body end
+    elseif _G.Caps.request then
+        local success, response = pcall(request, {Url = url, Method = "GET"})
+        if success and response and response.Body then return response.Body end
+    else
+        local success, response = pcall(function() return game:HttpGet(url) end)
+        if success then return response end
+    end
+    return nil
+end
+
+-- Security Core (works even without hookmetamethod)
 local SecurityCore = {
-    Services = setmetatable({}, {__index = function(t, k) local v = game:GetService(k) rawset(t, k, v) return v end}),
+    Services = setmetatable({}, {__index = function(t, k)
+        local svc = game:GetService(k)
+        rawset(t, k, svc)
+        return svc
+    end}),
 
     Config = {
         EnableKick = true,
-        EnableCrash = false,
-        EnableNotify = false,
-        ScanDelay = 2.2,
+        ScanDelay = 2.5,
         RequiredConsecutive = 3,
-
         SuspiciousPhrases = {'clear logs','exclude','excludes','ignore remotes'},
         BlockedPrints = {'blacklisted','remotespy','dex explorer'},
-
         KnownExplorerNames = {ExplorerSelections = true, EditAttributeButton = true, Dex = true, DEX = true},
         KnownExplorerAssets = {
-            ['rbxassetid://5054663650'] = true, ['rbxassetid://1427967925'] = true,
-            ['rbxassetid://9887697099'] = true, ['rbxassetid://9887696628'] = true,
-            ['rbxassetid://9896472554'] = true, ['rbxassetid://9887696922'] = true,
-            ['rbxassetid://9887696242'] = true, ['http://www.roblox.com/asset/?id=413369623'] = true,
+            ['rbxassetid://5054663650'] = true,
+            ['rbxassetid://1427967925'] = true,
+            ['rbxassetid://9887697099'] = true,
+            ['rbxassetid://9887696628'] = true,
+            ['rbxassetid://9896472554'] = true,
+            ['rbxassetid://9887696922'] = true,
+            ['rbxassetid://9887696242'] = true,
+            ['http://www.roblox.com/asset/?id=413369623'] = true,
             ['rbxassetid://169476802'] = true
         },
     },
 
     State = {
-        origNamecall = nil,
-        baselineRemotes = {FireServer = nil, InvokeServer = nil},
         explorerHits = 0,
         lastExplorerHit = 0,
-        hookStreak = 0,
     },
 
     TextElements = {TextLabel = true, TextButton = true, TextBox = true},
-
-    getNamecallMethod = getnamecallmethod or function() return '' end,
     tolower = string.lower,
-    is_c_closure = islclosure or function() return true end,
 }
 
 function SecurityCore.triggerViolation(reason)
-    if SecurityCore.Config.EnableKick and MainPlayer.Parent then
-        MainPlayer:Kick("Security violation: " .. (reason or "unauthorized tool"))
+    if SecurityCore.Config.EnableKick then
+        pcall(function()
+            LocalPlayer:Kick("Security violation: " .. (reason or "unauthorized tool"))
+        end)
     end
 end
 
@@ -163,65 +166,10 @@ end
 
 function SecurityCore.scanTextElement(inst)
     if not inst or not SecurityCore.TextElements[inst.ClassName] then return end
-    local ok, text = pcall(function() return inst.Text end)
-    if ok and SecurityCore.hasSuspiciousText(text) then
-        SecurityCore.triggerViolation("remote monitoring detected")
+    local success, text = pcall(function() return inst.Text end)
+    if success and SecurityCore.hasSuspiciousText(text) then
+        SecurityCore.triggerViolation("remote spy detected")
     end
-end
-
-function SecurityCore.storeBaselines()
-    local ok, mt = pcall(getrawmetatable, game)
-    if ok and mt then SecurityCore.State.origNamecall = rawget(mt, '__namecall') end
-
-    local re = Instance.new('RemoteEvent')
-    SecurityCore.State.baselineRemotes.FireServer = re.FireServer
-    re:Destroy()
-
-    local rf = Instance.new('RemoteFunction')
-    SecurityCore.State.baselineRemotes.InvokeServer = rf.InvokeServer
-    rf:Destroy()
-end
-
-function SecurityCore.isNamecallHooked()
-    local ok, mt = pcall(getrawmetatable, game)
-    if not ok or not mt or not SecurityCore.State.origNamecall then return false end
-    local current = rawget(mt, '__namecall')
-    if current == SecurityCore.State.origNamecall then return false end
-    if not SecurityCore.is_c_closure(current) then return true end
-    return false
-end
-
-function SecurityCore.isFireHooked()
-    local re = Instance.new('RemoteEvent')
-    local current = re.FireServer
-    re:Destroy()
-    if current ~= SecurityCore.State.baselineRemotes.FireServer and not SecurityCore.is_c_closure(current) then return true end
-    return false
-end
-
-function SecurityCore.isInvokeHooked()
-    local rf = Instance.new('RemoteFunction')
-    local current = rf.InvokeServer
-    rf:Destroy()
-    if current ~= SecurityCore.State.baselineRemotes.InvokeServer and not SecurityCore.is_c_closure(current) then return true end
-    return false
-end
-
-function SecurityCore.launchHookMonitor()
-    task.spawn(function()
-        while task.wait(SecurityCore.Config.ScanDelay) do
-            pcall(function()
-                if SecurityCore.isNamecallHooked() or SecurityCore.isFireHooked() or SecurityCore.isInvokeHooked() then
-                    SecurityCore.State.hookStreak += 1
-                    if SecurityCore.State.hookStreak >= SecurityCore.Config.RequiredConsecutive then
-                        SecurityCore.triggerViolation("remote interception")
-                    end
-                else
-                    SecurityCore.State.hookStreak = 0
-                end
-            end)
-        end
-    end)
 end
 
 function SecurityCore.containsExplorerKeyword(name)
@@ -236,128 +184,105 @@ end
 
 function SecurityCore.isExplorerLike(inst)
     if not inst then return false end
+
     if SecurityCore.Config.KnownExplorerNames[inst.Name] then return true end
-    if inst:IsA('ImageLabel') then
-        local ok, img = pcall(function() return inst.Image end)
-        if ok and img and SecurityCore.Config.KnownExplorerAssets[img] then return true end
+
+    if inst:IsA('ImageLabel') or inst:IsA('ImageButton') then
+        local success, img = pcall(function() return inst.Image end)
+        if success and img and SecurityCore.Config.KnownExplorerAssets[img] then return true end
     end
+
     if SecurityCore.containsExplorerKeyword(inst.Name) and (inst:IsA('ScreenGui') or inst:IsA('Frame')) then
         for _, child in ipairs(inst:GetDescendants()) do
-            if child.Name == 'Explorer' or child.Name == 'Properties' or child.Name == 'TopBar' then
+            local n = child.Name
+            if n == 'Explorer' or n == 'Properties' or n == 'TopBar' or n == 'RightPanel' then
                 return true
             end
         end
     end
+
     return false
 end
 
 function SecurityCore.registerExplorerHit()
     local now = os.clock()
-    if now - SecurityCore.State.lastExplorerHit > 3 then SecurityCore.State.explorerHits = 0 end
+    if now - SecurityCore.State.lastExplorerHit > 4 then
+        SecurityCore.State.explorerHits = 0
+    end
     SecurityCore.State.lastExplorerHit = now
     SecurityCore.State.explorerHits += 1
     if SecurityCore.State.explorerHits >= 3 then
-        SecurityCore.triggerViolation("explorer tool detected")
+        SecurityCore.triggerViolation("explorer detected")
     end
 end
 
 function SecurityCore.scanForExplorer(inst)
-    local ok, result = pcall(SecurityCore.isExplorerLike, inst)
-    if ok and result then SecurityCore.registerExplorerHit() end
+    pcall(function()
+        if SecurityCore.isExplorerLike(inst) then
+            SecurityCore.registerExplorerHit()
+        end
+    end)
 end
 
+-- Print guard (safe)
 function SecurityCore.setupPrintGuard()
-    local originalPrint = print
-    local active = false
-    local guardedPrint = function(...)
-        if active then return originalPrint(...) end
-        active = true
+    local original = print
+    local running = false
+    local safePrint = function(...)
+        if running then return original(...) end
+        running = true
         for i = 1, select('#', ...) do
-            local arg = select(i, ...)
-            if type(arg) == 'string' then
-                local low = SecurityCore.tolower(arg)
+            local v = select(i, ...)
+            if type(v) == 'string' then
+                local low = SecurityCore.tolower(v)
                 for _, bad in ipairs(SecurityCore.Config.BlockedPrints) do
                     if string.find(low, bad, 1, true) then
-                        active = false
-                        SecurityCore.triggerViolation("logging attempt")
+                        running = false
+                        SecurityCore.triggerViolation("print logger detected")
                         return
                     end
                 end
             end
         end
-        active = false
-        return originalPrint(...)
+        running = false
+        original(...)
     end
+
     pcall(function()
-        if getgenv then getgenv().print = guardedPrint else _G.print = guardedPrint end
+        if getgenv then getgenv().print = safePrint else _G.print = safePrint end
     end)
 end
 
-_G._0xV7W9 = function(str)
-    if not str then return "" end
-    local out = ""
-    for i = 1, #str do out = out .. string.char(string.byte(str, i) + 1) end
-    return out
-end
-
-pcall(function()
-    _G._0xX1Y4 = _G._0xV7W9("buildSecureGui")
-    _G._0xZ2A5 = _G._0xV7W9("optimizeMobileUi")
-    _G._0xB6C8 = _G._0xV7W9("identifyPlatform")
-end)
-
-_G.identifyPlatform = function()
-    _G.platform = "unknown"
-    if getgenv and getgenv().executor then _G.platform = getgenv().executor
-    elseif syn then _G.platform = "synapse"
-    elseif krnl then _G.platform = "krnl"
-    elseif fluxus then _G.platform = "fluxus"
-    elseif identifyexecutor then _G.platform = identifyexecutor() end
-    _G.isMobilePlatform = _G.platform:find("mobile") or _G.platform:find("android") or _G.platform:find("ios")
-    return _G.platform
-end
-
-_G.platform = _G.identifyPlatform()
-
-_G.buildSecureGui = function(guiName)
+-- GUI Creation (mobile-first)
+_G.buildSecureGui = function(name)
     local gui = nil
-    local methods = _G.isMobilePlatform and {
-        function() if syn and syn.protect_gui then gui = Instance.new("ScreenGui") gui.Name = guiName gui.ResetOnSpawn = false gui.Parent = _G.CoreServices.CoreGui syn.protect_gui(gui) gui.IgnoreGuiInset = true return gui end end,
-        function() if gethui then gui = Instance.new("ScreenGui") gui.Name = guiName gui.ResetOnSpawn = false gui.Parent = gethui() gui.IgnoreGuiInset = true return gui end end,
-        function() gui = Instance.new("ScreenGui") gui.Name = guiName gui.ResetOnSpawn = false gui.Parent = _G.MainPlayer:WaitForChild("PlayerGui") gui.IgnoreGuiInset = true return gui end,
-    } or {
-        function() if syn and syn.protect_gui then gui = Instance.new("ScreenGui") gui.Name = guiName gui.ResetOnSpawn = false gui.Parent = _G.CoreServices.CoreGui syn.protect_gui(gui) return gui end end,
-        function() if gethui then gui = Instance.new("ScreenGui") gui.Name = guiName gui.ResetOnSpawn = false gui.Parent = gethui() return gui end end,
-        function() if get_hidden_ui then gui = Instance.new("ScreenGui") gui.Name = guiName gui.ResetOnSpawn = false gui.Parent = get_hidden_ui() return gui end end,
-        function() gui = Instance.new("ScreenGui") gui.Name = guiName gui.ResetOnSpawn = false gui.Parent = _G.MainPlayer:WaitForChild("PlayerGui") return gui end,
+    local methods = {
+        function() if gethui then gui = Instance.new("ScreenGui") gui.Name = name gui.ResetOnSpawn = false gui.Parent = gethui() gui.IgnoreGuiInset = true return gui end end,
+        function() if syn and syn.protect_gui then gui = Instance.new("ScreenGui") gui.Name = name gui.ResetOnSpawn = false gui.Parent = _G.CoreServices.CoreGui syn.protect_gui(gui) gui.IgnoreGuiInset = true return gui end end,
+        function() if get_hidden_ui then gui = Instance.new("ScreenGui") gui.Name = name gui.ResetOnSpawn = false gui.Parent = get_hidden_ui() gui.IgnoreGuiInset = true return gui end end,
+        function() gui = Instance.new("ScreenGui") gui.Name = name gui.ResetOnSpawn = false gui.Parent = LocalPlayer:WaitForChild("PlayerGui") gui.IgnoreGuiInset = true return gui end,
     }
 
-    for _, method in ipairs(methods) do
-        local success, result = pcall(method)
-        if success and result then return result end
+    for _, fn in ipairs(methods) do
+        local ok, result = pcall(fn)
+        if ok and result then return result end
     end
     return nil
 end
 
-_G.optimizeMobileUi = function(gui)
-    if _G.isMobilePlatform and gui then
-        pcall(function()
-            gui.IgnoreGuiInset = true
-            gui.ResetOnSpawn = false
-            gui.DisplayOrder = 999999999
-        end)
-    end
-end
-
+-- Bootstrap (only safe parts)
 pcall(function()
-    SecurityCore.storeBaselines()
-    SecurityCore.launchHookMonitor()
     SecurityCore.setupPrintGuard()
 
     SecurityCore.Services.CoreGui.DescendantAdded:Connect(function(obj)
-        pcall(function() SecurityCore.scanForExplorer(obj) end)
+        task.spawn(function()
+            SecurityCore.scanForExplorer(obj)
+        end)
     end)
 end)
+
+-- Script successfully loaded - you can now add your main code below this line
+print("Protection loaded successfully")
 
 -- Services
 local Players = game:GetService("Players")
@@ -2030,4 +1955,5 @@ minimizeBtn.MouseButton1Click:Connect(function()
 		TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Size = UDim2.new(0,420,0,300)}):Play()
 		minimizeBtn.Text = "-"
 	end
+
 end)
