@@ -148,6 +148,9 @@ Services.CoreGui.DescendantAdded:Connect(function(o)
 end)
 
 -- Services
+
+local pgui = Player:WaitForChild("PlayerGui")
+
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -156,7 +159,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
 local player = Players.LocalPlayer
-local pgui = player:WaitForChild("PlayerGui")
 
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "NyoaSs"
@@ -1820,3 +1822,4 @@ minimizeBtn.MouseButton1Click:Connect(function()
 	end
 
 end)
+
