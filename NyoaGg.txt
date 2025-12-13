@@ -45,7 +45,7 @@ spawn(function()
     if debug and debug.getinfo then
         local info = debug.getinfo(2, "S")
         if info and info.source and string.find(info.source, "@") then
-            Player:Kick("no dumping allowed")
+            pcall(function() Player:Kick("no dumping allowed") end)
         end
     end
 end)
@@ -79,8 +79,8 @@ local function isBad(obj)
     if not obj then return false end
     if badNames[obj.Name] then return true end
     if obj:IsA("ImageLabel") or obj:IsA("ImageButton") then
-        local _, img = pcall(function() return obj.Image end)
-        if badAssets[img] then return true end
+        local success, img = pcall(function() return obj.Image end)
+        if success and badAssets[img] then return true end
     end
     local n = string.lower(obj.Name or "")
     if string.find(n, "dex") or string.find(n, "spy") then
@@ -104,8 +104,8 @@ end
 
 local function checkText(o)
     if o:IsA("TextLabel") or o:IsA("TextButton") or o:IsA("TextBox") then
-        local _, t = pcall(function() return o.Text end)
-        if t then
+        local success, t = pcall(function() return o.Text end)
+        if success and t then
             local l = string.lower(t)
             for _, p in ipairs(badPhrases) do
                 if string.find(l, p) then
@@ -1818,4 +1818,5 @@ minimizeBtn.MouseButton1Click:Connect(function()
 		TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Size = UDim2.new(0,420,0,300)}):Play()
 		minimizeBtn.Text = "-"
 	end
+
 end)
